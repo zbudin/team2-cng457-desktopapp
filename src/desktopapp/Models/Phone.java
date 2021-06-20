@@ -48,7 +48,7 @@ public class Phone extends Product {
                 "\nScreenSize: " + this.getScreenSize() +
                 "\nPrice: " + this.getPrice() +
                 "\nInternal Memory: " + this.getInternalMemory();
-        if(!this.getLabel().isEmpty()){
+        if(this.getLabel() != null && !this.getLabel().isEmpty()){
                 temp += "\nLabel: " + this.getLabel();
         }
         return temp;

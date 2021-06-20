@@ -205,30 +205,39 @@
                                         <Insets left="5.0" top="5.0" />
                                     </VBox.margin>
                                 </CheckBox>
-                                <CheckBox fx:id="checkBoxTouchscreenPC" mnemonicParsing="false" text="Touchscreen">
+                                <RadioButton fx:id="radioTouchscreenPC" mnemonicParsing="false" text="Touchscreen">
                                     <VBox.margin>
                                         <Insets left="5.0" top="5.0" />
                                     </VBox.margin>
+                                    <toggleGroup>
+                                        <ToggleGroup fx:id="group"/>
+                                    </toggleGroup>
                                     <font>
                                         <Font name="System Bold" size="12.0" />
                                     </font>
-                                </CheckBox>
-                                <CheckBox fx:id="checkBoxLongBatteryPC" mnemonicParsing="false" text="All-day Long Battery Life">
+                                </RadioButton>
+                                <RadioButton fx:id="radioLongBatteryPC" mnemonicParsing="false" text="All-day Long Battery Life">
                                     <VBox.margin>
                                         <Insets left="5.0" top="5.0" />
                                     </VBox.margin>
+                                    <toggleGroup>
+                                        <fx:reference source="group"/>
+                                    </toggleGroup>
                                     <font>
                                         <Font name="System Bold" size="12.0" />
                                     </font>
-                                </CheckBox>
-                                <CheckBox fx:id="checkBoxFaceRecPC" mnemonicParsing="false" text="Face Recognition">
+                                </RadioButton>
+                                <RadioButton fx:id="radioFaceRecPC" mnemonicParsing="false" text="Face Recognition">
                                     <VBox.margin>
                                         <Insets left="5.0" top="5.0" />
                                     </VBox.margin>
+                                    <toggleGroup>
+                                        <fx:reference source="group"/>
+                                    </toggleGroup>
                                     <font>
                                         <Font name="System Bold" size="12.0" />
                                     </font>
-                                </CheckBox>
+                                </RadioButton>
                                 <Button fx:id="btnApplyFilterPC" mnemonicParsing="false" prefHeight="25.0" prefWidth="218.0" text="Apply Filters">
                                     <VBox.margin>
                                         <Insets left="5.0" right="5.0" top="25.0" />
@@ -502,30 +511,39 @@
                                         <Insets left="5.0" top="5.0" />
                                     </VBox.margin>
                                 </CheckBox>
-                                <CheckBox fx:id="checkBoxTouchscreenPhone" mnemonicParsing="false" text="Touchscreen">
+                                <RadioButton fx:id="radioTouchscreenPhone" mnemonicParsing="false" text="Touchscreen">
                                     <VBox.margin>
                                         <Insets left="5.0" top="5.0" />
                                     </VBox.margin>
                                     <font>
                                         <Font name="System Bold" size="12.0" />
                                     </font>
-                                </CheckBox>
-                                <CheckBox fx:id="checkBoxLongBatteryPhone" mnemonicParsing="false" text="All-day Long Battery Life">
+                                    <toggleGroup>
+                                        <ToggleGroup fx:id="phonegroup"/>
+                                    </toggleGroup>
+                                </RadioButton>
+                                <RadioButton fx:id="radioLongBatteryPhone" mnemonicParsing="false" text="All-day Long Battery Life">
                                     <VBox.margin>
                                         <Insets left="5.0" top="5.0" />
                                     </VBox.margin>
+                                    <toggleGroup>
+                                        <fx:reference source="phonegroup"/>
+                                    </toggleGroup>
                                     <font>
                                         <Font name="System Bold" size="12.0" />
                                     </font>
-                                </CheckBox>
-                                <CheckBox fx:id="checkBoxFaceRecPhone" mnemonicParsing="false" text="Face Recognition">
+                                </RadioButton>
+                                <RadioButton fx:id="radioFaceRecPhone" mnemonicParsing="false" text="Face Recognition">
                                     <VBox.margin>
                                         <Insets left="5.0" top="5.0" />
                                     </VBox.margin>
+                                    <toggleGroup>
+                                        <fx:reference source="phonegroup"/>
+                                    </toggleGroup>
                                     <font>
                                         <Font name="System Bold" size="12.0" />
                                     </font>
-                                </CheckBox>
+                                </RadioButton>
                                 <Button fx:id="btnApplyFilterPhone" mnemonicParsing="false" prefHeight="25.0" prefWidth="218.0" text="Apply Filters">
                                     <VBox.margin>
                                         <Insets left="5.0" right="5.0" top="25.0" />

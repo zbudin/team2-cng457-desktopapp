@@ -15,7 +15,6 @@ import desktopapp.Models.Phone;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableArrayBase;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -73,13 +72,13 @@ public class Controller{
     private CheckBox checkBoxLargeStoragePC;
 
     @FXML
-    private CheckBox checkBoxTouchscreenPC;
+    private RadioButton radioTouchscreenPC;
 
     @FXML
-    private CheckBox checkBoxLongBatteryPC;
+    private RadioButton radioLongBatteryPC;
 
     @FXML
-    private CheckBox checkBoxFaceRecPC;
+    private RadioButton radioFaceRecPC;
 
     @FXML
     private ListView<PC> listViewPC;
@@ -118,13 +117,13 @@ public class Controller{
     private CheckBox checkBoxLargeStoragePhone;
 
     @FXML
-    private CheckBox checkBoxTouchscreenPhone;
+    private RadioButton radioTouchscreenPhone;
 
     @FXML
-    private CheckBox checkBoxLongBatteryPhone;
+    private RadioButton radioLongBatteryPhone;
 
     @FXML
-    private CheckBox checkBoxFaceRecPhone;
+    private RadioButton radioFaceRecPhone;
 
     @FXML
     private ListView<Phone> listViewPhone;
@@ -202,9 +201,40 @@ public class Controller{
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 if (newValue) {
-                    filters.put("largeMemory", "true");
+                    filters.put("largeMemory","true");
                 } else {
                     filters.remove("largeMemory");
+                }
+            }
+        });
+
+        radioFaceRecPC.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (newValue) {
+                    filters.put("feature1", "Face Recognition");
+                } else {
+                    filters.remove("feature1");
+                }
+            }
+        });
+        radioTouchscreenPC.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (newValue) {
+                    filters.put("feature2", "Touch Screen");
+                } else {
+                    filters.remove("feature2");
+                }
+            }
+        });
+        radioLongBatteryPC.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (newValue) {
+                    filters.put("feature3", "Extra-Long Battery Life");
+                } else {
+                    filters.remove("feature3");
                 }
             }
         });
@@ -220,6 +250,12 @@ public class Controller{
             }
         });
 
+        cBoxMinRatingPC.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldProduct, String newProduct) {
+                if(newProduct != null){filters.put("avgRating", newProduct);}
+            }
+        });
         btnApplyFilterPC.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 try {
@@ -250,6 +286,13 @@ public class Controller{
                     }
 
                     List<PC> filtered = pcService.getProductsByFilter(filters);
+                    for(PC p: filtered){
+                        p.setAvgRating(calculateAvg(getComments(p.getId(),false)));
+                    }
+                    if (filters.get("avgRating") != null) {
+                        filtered.removeIf(product -> ((((PC) product).getAvgRating()) < Float
+                                .parseFloat(filters.get("avgRating"))));
+                    }
 
                     listViewPC.setItems(FXCollections.observableArrayList(filtered));
                     listViewPC.setCellFactory(param -> new ListCell<PC>() {
@@ -261,7 +304,7 @@ public class Controller{
                                 setText(null);
                             } else {
                                 String text = item.getBrand() + " " + item.getModel();
-                                if (item.getLabel() != null) {
+                                if (item.getLabel() != null && !item.getLabel().isEmpty()) {
                                     text = text.concat(" with " + item.getLabel());
                                 }
                                 setText(text);
@@ -281,7 +324,14 @@ public class Controller{
         cBoxBrandPhone.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldProduct, String newProduct) {
-                filters.put("brand", newProduct);
+                if(newProduct != null){filters.put("brand", newProduct);}
+            }
+        });
+
+        cBoxMinRatingPhone.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldProduct, String newProduct) {
+                if(newProduct != null){filters.put("avgRating", newProduct);}
             }
         });
 
@@ -289,6 +339,37 @@ public class Controller{
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldProduct, String newProduct) {
                 filters.put("model", newProduct);
+            }
+        });
+
+        radioFaceRecPhone.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (newValue) {
+                    filters.put("feature1", "Face Recognition");
+                } else {
+                    filters.remove("feature1");
+                }
+            }
+        });
+        radioTouchscreenPhone.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (newValue) {
+                    filters.put("feature2", "Touch Screen");
+                } else {
+                    filters.remove("feature2");
+                }
+            }
+        });
+        radioLongBatteryPhone.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (newValue) {
+                    filters.put("feature3", "Extra-Long Battery Life");
+                } else {
+                    filters.remove("feature3");
+                }
             }
         });
 
@@ -335,9 +416,14 @@ public class Controller{
                     if (txtMaxScreenPhone.getText() != null && !txtMaxScreenPhone.getText().trim().isEmpty()) {
                         filters.put("maxScreen", txtMaxScreenPhone.getText());
                     }
-
                     List<Phone> filtered = phoneService.getProductsByFilter(filters);
-
+                    for(Phone p: filtered){
+                        p.setAvgRating(calculateAvg(getComments(p.getId(),false)));
+                    }
+                    if (filters.get("avgRating") != null) {
+                        filtered.removeIf(product -> ((((Phone) product).getAvgRating()) < Float
+                                .parseFloat(filters.get("avgRating"))));
+                    }
                     listViewPhone.setItems(FXCollections.observableArrayList(filtered));
                     listViewPhone.setCellFactory(param -> new ListCell<Phone>() {
                         @Override
@@ -348,13 +434,14 @@ public class Controller{
                                 setText(null);
                             } else {
                                 String text = item.getBrand() + " " + item.getModel();
-                                if (item.getLabel() != null) {
+                                if (item.getLabel() != null && !item.getLabel().isEmpty()) {
                                     text = text.concat(" with " + item.getLabel());
                                 }
                                 setText(text);
                             }
                         }
                     });
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (URISyntaxException e) {
@@ -410,6 +497,7 @@ public class Controller{
     public void setRatingFilterPC() {
         ArrayList<String> ratings = new ArrayList<String>() {
             {
+                add("0.0");
                 add("1.0");
                 add("2.0");
                 add("3.0");
@@ -443,6 +531,7 @@ public class Controller{
     public void setRatingFilterPhone() {
         ArrayList<String> ratings = new ArrayList<String>() {
             {
+                add("0.0");
                 add("1.0");
                 add("2.0");
                 add("3.0");
@@ -920,6 +1009,7 @@ public class Controller{
             pc.setScreenResolution(res);
             long id = jsonArray.getJSONObject(i).getLong("id");
             pc.setId(id);
+            pc.setAvgRating(calculateAvg(getComments(id,true)));
 
             listViewPC.getItems().add(pc);
         }
@@ -956,6 +1046,7 @@ public class Controller{
             phone.setInternalMemory(im);
             long id = jsonArray.getJSONObject(i).getLong("id");
             phone.setId(id);
+            phone.setAvgRating(calculateAvg(getComments(id,false)));
             listViewPhone.getItems().add(phone);
         }
 

@@ -74,7 +74,7 @@ public class PC extends Product {
                 "\nStorage: " + this.getStorage() +
                 "\nProcessor: " + this.processor +
                 "\nScreen Resolution: " + this.screenResolution;
-        if(!this.getLabel().isEmpty()){
+        if(this.getLabel() != null && !this.getLabel().isEmpty()){
             temp += "\nLabel: " + this.getLabel();
         }
         return temp;
