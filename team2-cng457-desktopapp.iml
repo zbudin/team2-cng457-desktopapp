@@ -23,7 +23,8 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" exported="" name="lib" level="project" />
-    <orderEntry type="library" exported="" name="org.json:json:20210307" level="project" />
+    <orderEntry type="library" name="lib" level="project" />
+    <orderEntry type="library" exported="" name="com.fasterxml.jackson.core:jackson-databind:2.12.3" level="project" />
+    <orderEntry type="library" name="javafx-base-15-win" level="project" />
   </component>
 </module>

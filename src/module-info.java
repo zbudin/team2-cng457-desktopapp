@@ -6,5 +6,13 @@ module team2.cng457.desktopapp {
     requires javafx.base;
     requires org.json;
 
+    requires com.fasterxml.jackson.annotation;
+    requires com.fasterxml.jackson.databind;
+    requires com.fasterxml.jackson.core;
+
+    opens desktopapp.Controllers;
+    opens desktopapp.Models;
+    opens desktopapp.Views;
+
     opens desktopapp;
 }
