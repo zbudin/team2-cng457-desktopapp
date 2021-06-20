@@ -1,4 +1,4 @@
-package desktopapp;
+package desktopapp.Models;
 
 import java.text.SimpleDateFormat;
 import java.util.Comparator;

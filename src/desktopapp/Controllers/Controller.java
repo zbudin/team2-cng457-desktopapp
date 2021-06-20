@@ -1,11 +1,13 @@
 package desktopapp.Controllers;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.List;
+import java.net.URL;
+import java.util.*;
 
+import desktopapp.Models.Comment;
+import desktopapp.Models.Product;
 import desktopapp.Service;
 import desktopapp.Models.PC;
 import desktopapp.Models.Phone;
@@ -13,19 +15,21 @@ import desktopapp.Models.Phone;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableArrayBase;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
+import org.json.JSONArray;
 
-public class Controller {
+public class Controller{
+
+    private static boolean isEmpty[] = {true,true,true,true,true,true,true,true};
+
     @FXML
     private TabPane tabs;
 
@@ -124,6 +128,31 @@ public class Controller {
 
     @FXML
     private ListView<Phone> listViewPhone;
+
+
+    @FXML private ScrollPane pcInfoField;
+    @FXML private ScrollPane pcCmp1;
+    @FXML private ScrollPane pcCmp2;
+    @FXML private ScrollPane pcCmp3;
+    @FXML private Button pcRM1Btn;
+    @FXML private Button pcRM2Btn;
+    @FXML private Button pcRM3Btn;
+
+    @FXML private ScrollPane phoneInfoField;
+    @FXML private ScrollPane phoneCmp1;
+    @FXML private ScrollPane phoneCmp2;
+    @FXML private ScrollPane phoneCmp3;
+    @FXML private Button phoneRM1Btn;
+    @FXML private Button phoneRM2Btn;
+    @FXML private Button phoneRM3Btn;
+
+    @FXML private Button pcCmpBtn;
+    @FXML private Button phoneCmpBtn;
+    @FXML private Button pcSortByPriceBtn;
+    @FXML private Button pcSortByRatingBtn;
+    @FXML private Button phoneSortByPriceBtn;
+    @FXML private Button phoneSortByRatingBtn;
+
 
     @FXML
     private Button btnApplyFilterPhone;
@@ -437,7 +466,498 @@ public class Controller {
 
     @FXML
     public void initialize() throws IOException {
+        freeCmp(0,true);
+        freeCmp(1,true);
+        freeCmp(2,true);
+        freeCmp(3,true);
+        freeCmp(0,false);
+        freeCmp(1,false);
+        freeCmp(2,false);
+        freeCmp(3,false);
+        showAllPc();
+        showAllPhone();
+        selectionEventHandlers();
         registerEventHandlers();
         setFilters();
+    }
+
+    public void selectionEventHandlers() throws IOException{
+        listViewPC.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event){
+                Object o = listViewPC.getSelectionModel().getSelectedItem();
+                if(o!=null) {
+                    PC pc = (PC) o;
+                    showInfo(pc, true,0);
+                }
+            }
+        });
+
+        listViewPC.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                Object o = listViewPC.getSelectionModel().getSelectedItem();
+                if(o!=null) {
+                    PC c = (PC) o;
+                    showInfo(c, true,0);
+                }
+            }
+        });
+
+        listViewPhone.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Object o = listViewPhone.getSelectionModel().getSelectedItem();
+                if(o!=null) {
+                    Phone c = (Phone) o;
+                    showInfo(c, false,0);
+                }
+            }
+        });
+
+        listViewPhone.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                Object o = listViewPhone.getSelectionModel().getSelectedItem();
+                if(o!=null) {
+                    Phone c = (Phone) o;
+                    showInfo(c, false,0);
+                }
+            }
+        });
+    }
+
+    public void sortPressed(ActionEvent event){
+        String test = event.toString();
+        try {
+            if (test.contains("pc")) {
+                ObservableList ol = listViewPC.getItems();
+                if (test.contains("Price")) {
+                    Comparator<PC> priceComparator = Comparator.comparing(PC::getPrice);
+                    ol.sort(priceComparator.reversed());
+                } else {
+                    for (int i = 0; i < ol.size(); i++) {
+                        PC temp = (PC) ol.get(i);
+                        temp.setAvgRating(calculateAvg(getComments(temp.getId(), true)));
+                        ol.set(i,temp);
+                    }
+                    Comparator<PC> ratingComparator = Comparator.comparing(PC::getAvgRating);
+                    ol.sort(ratingComparator.reversed());
+                }
+            } else {
+                ObservableList ol = listViewPhone.getItems();
+                if (test.contains("Price")) {
+                    Comparator<Phone> commentComparator = Comparator.comparing(Phone::getPrice);
+                    ol.sort(commentComparator.reversed());
+                } else {
+                    for (int i = 0; i < ol.size(); i++) {
+                        Phone temp = (Phone) ol.get(i);
+                        temp.setAvgRating(calculateAvg(getComments(temp.getId(), true)));
+                        ol.set(i,temp);
+                    }
+                    Comparator<Phone> ratingComparator = Comparator.comparing(Phone::getAvgRating);
+                    ol.sort(ratingComparator.reversed());
+                }
+            }
+        }
+        catch(Exception e){System.out.println(e);}
+    }
+
+
+    public void comparePressed(ActionEvent event){
+        String test = event.toString();
+        if(test.contains("pc")){
+            if(isEmpty[0]){
+                Alert a = new Alert(Alert.AlertType.WARNING);
+                a.setTitle("Please select an item!");
+                a.setHeaderText("Please select an item first!");
+                a.setContentText("You should select an item first and then press compare button to compare multiple computers.");
+                a.show();
+            }
+            else if(isEmpty[1]){
+                PC o = (PC)listViewPC.getSelectionModel().getSelectedItem();
+                showInfo(o,true,1);
+
+            }
+            else if(isEmpty[2]){
+                PC o = (PC)listViewPC.getSelectionModel().getSelectedItem();
+                showInfo(o,true,2);
+            }
+            else if(isEmpty[3]){
+                PC o = (PC)listViewPC.getSelectionModel().getSelectedItem();
+                showInfo(o,true,3);
+            }
+            else{
+                Alert a = new Alert(Alert.AlertType.WARNING);
+                a.setTitle("Please remove an item!");
+                a.setHeaderText("All comparison fields are full!");
+                a.setContentText("You should clear a comparison field by pressing one of the remove buttons located on the left.");
+                a.show();
+            }
+        }
+        else{
+            if(isEmpty[4]){
+                System.out.println(isEmpty[4]);
+                Alert a = new Alert(Alert.AlertType.WARNING);
+                a.setTitle("Please select an item!");
+                a.setHeaderText("Please select an item first!");
+                a.setContentText("You should select an item first and then press compare button to compare multiple computers.");
+                a.show();
+            }
+            else if(isEmpty[5]){
+                Phone o = (Phone)listViewPhone.getSelectionModel().getSelectedItem();
+                showInfo(o,false,1);
+            }
+            else if(isEmpty[6]){
+                Phone o = (Phone)listViewPhone.getSelectionModel().getSelectedItem();
+                showInfo(o,false,2);
+            }
+            else if(isEmpty[7]){
+                Phone o = (Phone)listViewPhone.getSelectionModel().getSelectedItem();
+                showInfo(o,false,3);
+            }
+            else{
+                Alert a = new Alert(Alert.AlertType.WARNING);
+                a.setTitle("Please remove an item!");
+                a.setHeaderText("All comparison fields are full!");
+                a.setContentText("You should clear a comparison field by pressing one of the remove buttons located on the left.");
+                a.show();
+            }
+        }
+    }
+
+    private void freeCmp(int id,boolean isPc){
+        Text text = new Text("");
+        ScrollPane ref;
+        if(isPc){
+            switch(id){
+                case 0: ref = pcInfoField; break;
+                case 1: ref = pcCmp1; break;
+                case 2: ref = pcCmp2; break;
+                default: ref = pcCmp3; break;
+            }
+        }
+        else{
+            switch(id){
+                case 0: ref = phoneInfoField; break;
+                case 1: ref = phoneCmp1; break;
+                case 2: ref = phoneCmp2; break;
+                default: ref = phoneCmp3; break;
+            }
+            id += 4;
+        }
+        isEmpty[id] = true;
+        ref.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        ref.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        ref.setContent(text);
+    }
+
+    private void showInfo(Product p,boolean isPc,int id){
+        ScrollPane ref;
+        long productID;
+        if(isPc){
+            productID = ((PC) listViewPC.getSelectionModel().getSelectedItem()).getId();
+            switch(id){
+                case 0: ref = pcInfoField; break;
+                case 1: ref = pcCmp1; break;
+                case 2: ref = pcCmp2; break;
+                default: ref = pcCmp3; break;
+            }
+        }
+        else{
+            productID = ((Phone) listViewPhone.getSelectionModel().getSelectedItem()).getId();
+            switch(id){
+                case 0: ref = phoneInfoField; break;
+                case 1: ref = phoneCmp1; break;
+                case 2: ref = phoneCmp2; break;
+                default: ref = phoneCmp3; break;
+            }
+            id += 4;
+        }
+        ref.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        ref.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        String temp = p.returnDetails();
+        int count = 0;
+        try {
+            String strings[] = getFeatures(productID,isPc);
+            Comment comments[] = getComments(productID, isPc);
+            for (String s:strings){
+                count++;
+                temp += "\nAdditional Feature " + count + ": " + s;
+            }
+            if(comments.length>0) {
+                temp += "\n\nComments\n";
+                if(id>=4){
+                    Phone phone = (Phone) listViewPhone.getSelectionModel().getSelectedItem();
+                    phone.setAvgRating(calculateAvg(comments));
+                    temp += "\nAverage Rating:" + String.format("%.2f", phone.getAvgRating());
+                }
+                else{
+                    PC pc = (PC) listViewPC.getSelectionModel().getSelectedItem();
+                    pc.setAvgRating(calculateAvg(comments));
+                    temp += "\nAverage Rating:" + String.format("%.2f", pc.getAvgRating());
+                }
+                if (id == 0 || id == 4) {
+                    count = 0;
+                    for (Comment c : comments) {
+                        count++;
+                        temp += "\nComment " + count + "\n" + c;
+                    }
+                } else {
+                    count = 0;
+                    for (Comment c : comments) {
+                        count++;
+                        temp += "\nComment " + count + "\n" + c;
+                        if (count == 3) {
+                            break;
+                        }
+                    }
+                }
+            }
+            else{
+                temp += "\n\nNo one commented to this product yet!";
+            }
+
+        }
+        catch(Exception e){
+            System.out.println(e);
+        }
+
+
+        Text text = new Text(temp);
+        ref.setContent(text);
+        isEmpty[id] = false;
+
+
+
+    }
+
+    public void removePressed(ActionEvent event){
+        String test = event.toString();
+        if(test.contains("pc")){
+            //Handle pc here
+            if(test.contains("RM1")){
+                if(isEmpty[1]){
+                    Alert a = new Alert(Alert.AlertType.INFORMATION);
+                    a.setTitle("Already empty");
+                    a.setHeaderText("Item 1 is already empty");
+                    a.show();
+                }
+                else{
+                    freeCmp(1,true);
+                }
+            }
+            else if(test.contains("RM2")){
+                if(isEmpty[2]){
+                    Alert a = new Alert(Alert.AlertType.INFORMATION);
+                    a.setTitle("Already empty");
+                    a.setHeaderText("Item 2 is already empty");
+                    a.show();
+                }
+                else{
+                    freeCmp(2,true);
+                }
+            }
+            else{
+                if(isEmpty[3]){
+                    Alert a = new Alert(Alert.AlertType.INFORMATION);
+                    a.setTitle("Already empty");
+                    a.setHeaderText("Item 3 is already empty");
+                    a.show();
+                }
+                else{
+                    freeCmp(3,true);
+                }
+            }
+        }
+        else{
+            //Handle phone here
+            if(test.contains("RM1")){
+                if(isEmpty[5]){
+                    Alert a = new Alert(Alert.AlertType.INFORMATION);
+                    a.setTitle("Already empty");
+                    a.setHeaderText("Item 1 is already empty");
+                    a.show();
+                }
+                else{
+                    freeCmp(1,false);
+                }
+            }
+            else if(test.contains("RM2")){
+                if(isEmpty[6]){
+                    Alert a = new Alert(Alert.AlertType.INFORMATION);
+                    a.setTitle("Already empty");
+                    a.setHeaderText("Item 2 is already empty");
+                    a.show();
+                }
+                else{
+                    freeCmp(2,false);
+                }
+            }
+            else{
+                if(isEmpty[7]){
+                    Alert a = new Alert(Alert.AlertType.INFORMATION);
+                    a.setTitle("Already empty");
+                    a.setHeaderText("Item 3 is already empty");
+                    a.show();
+                }
+                else{
+                    freeCmp(3,false);
+                }
+            }
+        }
+    }
+
+    private Comment[] getComments(long id,boolean isPc) throws IOException {
+        HttpURLConnection connection;
+        String url = "http://localhost:8080/";
+        if(isPc){
+            url += "computers/"+id+"/comments/";
+            connection = (HttpURLConnection)new URL(url).openConnection();
+        }
+        else{
+            url += "phones/"+id+"/comments/";
+            connection = (HttpURLConnection)new URL(url).openConnection();
+        }
+        connection.setRequestMethod("GET");
+        String response = "";
+        int responseCode = connection.getResponseCode();
+        if (responseCode==200){
+            Scanner scanner = new Scanner(connection.getInputStream());
+            while(scanner.hasNextLine()){
+                response += scanner.nextLine();
+                response += "\n";
+            }
+            scanner.close();
+        }
+        JSONArray jsonArray = new JSONArray(response);
+        int length = jsonArray.length();
+        Comment comments[] = new Comment[length];
+        for(int i=0;i<length;i++){
+            String s = jsonArray.getJSONObject(i).getString("comment");
+            int r = jsonArray.getJSONObject(i).getInt("rating");
+            long t = jsonArray.getJSONObject(i).getLong("timestamp");
+            comments[i] = new Comment(s,r,t);
+        }
+        Comparator<Comment> commentComparator = Comparator.comparing(Comment::getTimestamp).reversed();
+        Arrays.sort(comments,commentComparator);
+        return comments;
+    }
+
+    private String[] getFeatures(long id,boolean isPc) throws IOException{
+        HttpURLConnection connection;
+        String url = "http://localhost:8080/";
+        if(isPc){
+            url += "computers/"+id+"/features/";
+            connection = (HttpURLConnection)new URL(url).openConnection();
+        }
+        else{
+            url += "phones/"+id+"/features/";
+            connection = (HttpURLConnection)new URL(url).openConnection();
+        }
+        connection.setRequestMethod("GET");
+        String response = "";
+        int responseCode = connection.getResponseCode();
+        if (responseCode==200){
+            Scanner scanner = new Scanner(connection.getInputStream());
+            while(scanner.hasNextLine()){
+                response += scanner.nextLine();
+                response += "\n";
+            }
+            scanner.close();
+        }
+        JSONArray jsonArray = new JSONArray(response);
+        int length = jsonArray.length();
+        String features[] = new String[length];
+        for(int i=0;i<length;i++){
+            features[i] = jsonArray.getJSONObject(i).getString("feature");
+        }
+
+        return features;
+    }
+
+    private float calculateAvg(Comment comments[]){
+        float avg = 0;
+        for(Comment c:comments){
+            avg += c.getRating()/((float)(comments.length));
+        }
+        return avg;
+    }
+
+    private void showAllPc() throws IOException{
+        String response = "";
+        HttpURLConnection connection = (HttpURLConnection)new URL("http://localhost:8080/computers").openConnection();
+        connection.setRequestMethod("GET");
+        int responseCode = connection.getResponseCode();
+        if (responseCode==200){
+            Scanner scanner = new Scanner(connection.getInputStream());
+            while(scanner.hasNextLine()){
+                response += scanner.nextLine();
+                response += "\n";
+            }
+            scanner.close();
+        }
+        JSONArray jsonArray = new JSONArray(response);
+        int length = jsonArray.length();
+        PC pc;
+        for(int i=0;i<jsonArray.length();i++){
+            pc = new PC();
+            double r = jsonArray.getJSONObject(i).getDouble("price");
+            pc.setPrice(r);
+            String s = jsonArray.getJSONObject(i).getString("screenSize");
+            pc.setScreenSize(s);
+            String b = jsonArray.getJSONObject(i).getString("brand");
+            pc.setBrand(b);
+            String m = jsonArray.getJSONObject(i).getString("model");
+            pc.setModel(m);
+            String p = jsonArray.getJSONObject(i).getString("processor");
+            pc.setProcessor(p);
+            int mm = jsonArray.getJSONObject(i).getInt("memory");
+            pc.setMemory(mm);
+            int st = jsonArray.getJSONObject(i).getInt("storage");
+            pc.setStorage(st);
+            String res = jsonArray.getJSONObject(i).getString("screenResolution");
+            pc.setScreenResolution(res);
+            long id = jsonArray.getJSONObject(i).getLong("id");
+            pc.setId(id);
+
+            listViewPC.getItems().add(pc);
+        }
+    }
+
+    private void showAllPhone() throws IOException{
+        String response = "";
+        HttpURLConnection connection = (HttpURLConnection)new URL("http://localhost:8080/phones").openConnection();
+        connection.setRequestMethod("GET");
+        int responseCode = connection.getResponseCode();
+        if (responseCode==200){
+            Scanner scanner = new Scanner(connection.getInputStream());
+            while(scanner.hasNextLine()){
+                response += scanner.nextLine();
+                response += "\n";
+            }
+            scanner.close();
+        }
+        JSONArray jsonArray = new JSONArray(response);
+        int length = jsonArray.length();
+        Phone phone;
+        for(int i=0;i<length;i++){
+
+            phone = new Phone();
+            double r = jsonArray.getJSONObject(i).getDouble("price");
+            phone.setPrice(r);
+            String s = jsonArray.getJSONObject(i).getString("screenSize");
+            phone.setScreenSize(s);
+            String b = jsonArray.getJSONObject(i).getString("brand");
+            phone.setBrand(b);
+            String m = jsonArray.getJSONObject(i).getString("model");
+            phone.setModel(m);
+            int im = jsonArray.getJSONObject(i).getInt("internalMemory");
+            phone.setInternalMemory(im);
+            long id = jsonArray.getJSONObject(i).getLong("id");
+            phone.setId(id);
+            listViewPhone.getItems().add(phone);
+        }
+
     }
 }
