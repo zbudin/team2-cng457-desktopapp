@@ -325,15 +325,15 @@ public class Controller{
                     txtMinScreenPC.setText(null);
                     txtMaxScreenPC.setText(null);
 
-                    cBoxBrandPC.selectedProperty().clearSelection();
-                    cBoxModelPC.selectedProperty().clearSelection();
-                    cBoxProcessorPC.selectedProperty().clearSelection();
+                    cBoxBrandPC.getSelectionModel().clearSelection();
+                    cBoxModelPC.getSelectionModel().clearSelection();
+                    cBoxProcessorPC.getSelectionModel().clearSelection();
 
-                    checkBoxFaceRecPC.setSelected(false);
+                    radioFaceRecPC.setSelected(false);
                     checkBoxLargeMemoryPC.setSelected(false);
                     checkBoxLargeStoragePC.setSelected(false);
-                    checkBoxLongBatteryPC.setSelected(false);
-                    checkBoxTouchscreenPC.setSelected(false);
+                    radioLongBatteryPC.setSelected(false);
+                    radioTouchscreenPC.setSelected(false);
 
                     filters.clear();
                 } catch (IOException e) {
@@ -477,14 +477,13 @@ public class Controller{
                     txtMinScreenPhone.setText(null);
                     txtMaxScreenPhone.setText(null);
 
-                    cBoxBrandPhone.selectedProperty().clearSelection();
-                    cBoxModelPhone.selectedProperty().clearSelection();
+                    cBoxBrandPhone.getSelectionModel().clearSelection();
+                    cBoxModelPhone.getSelectionModel().clearSelection();
 
-                    checkBoxFaceRecPhone.setSelected(false);
-                    checkBoxLargeMemoryPhone.setSelected(false);
+                    radioFaceRecPhone.setSelected(false);
                     checkBoxLargeStoragePhone.setSelected(false);
-                    checkBoxLongBatteryPhone.setSelected(false);
-                    checkBoxTouchscreenPhone.setSelected(false);
+                    radioLongBatteryPhone.setSelected(false);
+                    radioTouchscreenPhone.setSelected(false);
 
                     filters.clear();
                   
