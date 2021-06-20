@@ -17,6 +17,16 @@ public class Product {
 
     private String label;
 
+    private float avgRating;
+
+    public float getAvgRating() {
+        return avgRating;
+    }
+
+    public void setAvgRating(float avgRating) {
+        this.avgRating = avgRating;
+    }
+
     public String getBrand() {
         return brand;
     }
@@ -33,6 +43,16 @@ public class Product {
         return screenSize;
     }
 
+    public Double getPrice() { return price; }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
     public void setModel(String model) {
         this.model = model;
     }
@@ -43,6 +63,18 @@ public class Product {
 
     public void setLabel(String label) {
         this.label = label;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public void setScreenSize(String screenSize) {
+        this.screenSize = screenSize;
+    }
+
+    public String returnDetails(){
+        return "";
     }
 
 }

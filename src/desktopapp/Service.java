@@ -10,6 +10,7 @@ import java.net.URL;
 import java.util.Hashtable;
 import java.util.List;
 
+import desktopapp.Controllers.Controller;
 import desktopapp.Models.PC;
 import desktopapp.Models.Phone;
 import desktopapp.Models.Product;
@@ -26,6 +27,7 @@ public class Service<T> {
     }
 
     private String encodeURL(String value) throws URISyntaxException, MalformedURLException {
+        System.out.println(value);
         URL url = new URL(value);
         URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort(), url.getPath(),
                 url.getQuery(), url.getRef());
@@ -36,7 +38,11 @@ public class Service<T> {
     private String buildQuery(Hashtable<String, String> queryStrings) {
         final StringBuilder builder = new StringBuilder();
         queryStrings.forEach((k, v) -> {
-            builder.append(k.toString() + "=" + v.toString() + "&");
+            if (k.contains("feature")) {
+                builder.append("feature=" + v.toString() + "&");
+            } else {
+                builder.append(k.toString() + "=" + v.toString() + "&");
+            }
         });
         String query = "?" + builder.toString();
 
@@ -139,6 +145,7 @@ public class Service<T> {
                 products.removeIf(product -> (Double.parseDouble(((PC) product).getScreenSize()) < Double
                         .parseDouble(filters.get("maxScreen"))));
             }
+
         } else if (this.type == Phone.class) {
             if (filters.get("minScreen") != null) {
                 products.removeIf(product -> (Double.parseDouble(((Phone) product).getScreenSize()) < Double
@@ -149,6 +156,7 @@ public class Service<T> {
                         .parseDouble(filters.get("maxScreen"))));
             }
         }
+
         return products;
     }
 
