@@ -151,28 +151,34 @@ public class Controller {
         cBoxBrandPC.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldProduct, String newProduct) {
-                filters.put("brand", newProduct);
+                if (newProduct != null) {
+                    filters.put("brand", newProduct);
+                }
             }
         });
 
         cBoxModelPC.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldProduct, String newProduct) {
-                filters.put("model", newProduct);
+                if (newProduct != null) {
+                    filters.put("model", newProduct);
+                }
             }
         });
 
         cBoxProcessorPC.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldProduct, String newProduct) {
-                filters.put("processor", newProduct);
+                if (newProduct != null) {
+                    filters.put("processor", newProduct);
+                }
             }
         });
 
         checkBoxLargeMemoryPC.selectedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if (newValue) {
+                if (newValue != null) {
                     filters.put("largeMemory", "true");
                 } else {
                     filters.remove("largeMemory");
@@ -183,7 +189,7 @@ public class Controller {
         checkBoxLargeStoragePC.selectedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if (newValue) {
+                if (newValue != null) {
                     filters.put("largeStorage", "true");
                 } else {
                     filters.remove("largeStorage");
@@ -239,6 +245,24 @@ public class Controller {
                             }
                         }
                     });
+
+                    txtMinPricePC.setText(null);
+                    txtMaxPricePC.setText(null);
+                    txtMinMemoryPC.setText(null);
+                    txtMinScreenPC.setText(null);
+                    txtMaxScreenPC.setText(null);
+
+                    cBoxBrandPC.selectedProperty().clearSelection();
+                    cBoxModelPC.selectedProperty().clearSelection();
+                    cBoxProcessorPC.selectedProperty().clearSelection();
+
+                    checkBoxFaceRecPC.setSelected(false);
+                    checkBoxLargeMemoryPC.setSelected(false);
+                    checkBoxLargeStoragePC.setSelected(false);
+                    checkBoxLongBatteryPC.setSelected(false);
+                    checkBoxTouchscreenPC.setSelected(false);
+
+                    filters.clear();
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (URISyntaxException e) {
@@ -252,21 +276,25 @@ public class Controller {
         cBoxBrandPhone.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldProduct, String newProduct) {
-                filters.put("brand", newProduct);
+                if (newProduct != null) {
+                    filters.put("brand", newProduct);
+                }
             }
         });
 
         cBoxModelPhone.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldProduct, String newProduct) {
-                filters.put("model", newProduct);
+                if (newProduct != null) {
+                    filters.put("model", newProduct);
+                }
             }
         });
 
         checkBoxLargeScreenPhone.selectedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if (newValue) {
+                if (newValue != null) {
                     filters.put("largeScreen", "true");
                 } else {
                     filters.remove("largeScreen");
@@ -277,7 +305,7 @@ public class Controller {
         checkBoxLargeStoragePhone.selectedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if (newValue) {
+                if (newValue != null) {
                     filters.put("largeStorage", "true");
                 } else {
                     filters.remove("largeStorage");
@@ -326,6 +354,23 @@ public class Controller {
                             }
                         }
                     });
+
+                    txtMinPricePhone.setText(null);
+                    txtMaxPricePhone.setText(null);
+                    txtMinStoragePhone.setText(null);
+                    txtMinScreenPhone.setText(null);
+                    txtMaxScreenPhone.setText(null);
+
+                    cBoxBrandPhone.selectedProperty().clearSelection();
+                    cBoxModelPhone.selectedProperty().clearSelection();
+
+                    checkBoxFaceRecPhone.setSelected(false);
+                    checkBoxLargeMemoryPhone.setSelected(false);
+                    checkBoxLargeStoragePhone.setSelected(false);
+                    checkBoxLongBatteryPhone.setSelected(false);
+                    checkBoxTouchscreenPhone.setSelected(false);
+
+                    filters.clear();
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (URISyntaxException e) {
