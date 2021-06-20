@@ -11,7 +11,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("Views/sample.fxml"));
         primaryStage.getIcons().add(new Image("file:../../logo.png"));
         primaryStage.setTitle("Team2 Desktop App");
         primaryStage.setScene(new Scene(root, 1024, 768));
