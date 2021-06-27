@@ -25,74 +25,134 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import org.json.JSONArray;
 
-public class Controller{
+public class Controller {
 
-    private static boolean isEmpty[] = {true,true,true,true,true,true,true,true};
+    private static boolean isEmpty[] = { true, true, true, true, true, true, true, true };
 
-    @FXML private TabPane tabs;
-    @FXML private TextField txtMinPricePC;
-    @FXML private TextField txtMaxPricePC;
-    @FXML private ComboBox<String> cBoxBrandPC;
-    @FXML private ComboBox<String> cBoxModelPC;
-    @FXML private ComboBox<String> cBoxProcessorPC;
-    @FXML private TextField txtMinMemoryPC;
-    @FXML private TextField txtMaxMemoryPC;
-    @FXML private TextField txtMinStoragePC;
-    @FXML private TextField txtMinScreenPC;
-    @FXML private TextField txtMaxScreenPC;
-    @FXML private ComboBox<String> cBoxMinRatingPC;
-    @FXML private CheckBox checkBoxLargeMemoryPC;
-    @FXML private CheckBox checkBoxLargeStoragePC;
-    @FXML private RadioButton radioTouchscreenPC;
-    @FXML private RadioButton radioLongBatteryPC;
-    @FXML private RadioButton radioFaceRecPC;
-    @FXML private ListView<PC> listViewPC;
-    @FXML private Button btnApplyFilterPC;
-    @FXML private TextField txtMinPricePhone;
-    @FXML private TextField txtMaxPricePhone;
-    @FXML private ComboBox<String> cBoxBrandPhone;
-    @FXML private ComboBox<String> cBoxModelPhone;
-    @FXML private TextField txtMinStoragePhone;
-    @FXML private TextField txtMinScreenPhone;
-    @FXML private TextField txtMaxScreenPhone;
-    @FXML private ComboBox<String> cBoxMinRatingPhone;
-    @FXML private CheckBox checkBoxLargeScreenPhone;
-    @FXML private CheckBox checkBoxLargeStoragePhone;
-    @FXML private RadioButton radioTouchscreenPhone;
-    @FXML private RadioButton radioLongBatteryPhone;
-    @FXML private RadioButton radioFaceRecPhone;
-    @FXML private ListView<Phone> listViewPhone;
+    @FXML
+    private TabPane tabs;
+    @FXML
+    private TextField txtMinPricePC;
+    @FXML
+    private TextField txtMaxPricePC;
+    @FXML
+    private ComboBox<String> cBoxBrandPC;
+    @FXML
+    private ComboBox<String> cBoxModelPC;
+    @FXML
+    private ComboBox<String> cBoxProcessorPC;
+    @FXML
+    private TextField txtMinMemoryPC;
+    @FXML
+    private TextField txtMaxMemoryPC;
+    @FXML
+    private TextField txtMinStoragePC;
+    @FXML
+    private TextField txtMinScreenPC;
+    @FXML
+    private TextField txtMaxScreenPC;
+    @FXML
+    private ComboBox<String> cBoxMinRatingPC;
+    @FXML
+    private CheckBox checkBoxLargeMemoryPC;
+    @FXML
+    private CheckBox checkBoxLargeStoragePC;
+    @FXML
+    private RadioButton radioTouchscreenPC;
+    @FXML
+    private RadioButton radioLongBatteryPC;
+    @FXML
+    private RadioButton radioFaceRecPC;
+    @FXML
+    private ListView<PC> listViewPC;
+    @FXML
+    private Button btnApplyFilterPC;
+    @FXML
+    private TextField txtMinPricePhone;
+    @FXML
+    private TextField txtMaxPricePhone;
+    @FXML
+    private ComboBox<String> cBoxBrandPhone;
+    @FXML
+    private ComboBox<String> cBoxModelPhone;
+    @FXML
+    private TextField txtMinStoragePhone;
+    @FXML
+    private TextField txtMinScreenPhone;
+    @FXML
+    private TextField txtMaxScreenPhone;
+    @FXML
+    private ComboBox<String> cBoxMinRatingPhone;
+    @FXML
+    private CheckBox checkBoxLargeScreenPhone;
+    @FXML
+    private CheckBox checkBoxLargeStoragePhone;
+    @FXML
+    private RadioButton radioTouchscreenPhone;
+    @FXML
+    private RadioButton radioLongBatteryPhone;
+    @FXML
+    private RadioButton radioFaceRecPhone;
+    @FXML
+    private ListView<Phone> listViewPhone;
 
-    @FXML private ScrollPane pcInfoField;
-    @FXML private ScrollPane pcCmp1;
-    @FXML private ScrollPane pcCmp2;
-    @FXML private ScrollPane pcCmp3;
-    @FXML private ScrollPane pcCom1;
-    @FXML private ScrollPane pcCom2;
-    @FXML private ScrollPane pcCom3;
-    @FXML private Button pcRM1Btn;
-    @FXML private Button pcRM2Btn;
-    @FXML private Button pcRM3Btn;
+    @FXML
+    private ScrollPane pcInfoField;
+    @FXML
+    private ScrollPane pcCmp1;
+    @FXML
+    private ScrollPane pcCmp2;
+    @FXML
+    private ScrollPane pcCmp3;
+    @FXML
+    private ScrollPane pcCom1;
+    @FXML
+    private ScrollPane pcCom2;
+    @FXML
+    private ScrollPane pcCom3;
+    @FXML
+    private Button pcRM1Btn;
+    @FXML
+    private Button pcRM2Btn;
+    @FXML
+    private Button pcRM3Btn;
 
-    @FXML private ScrollPane phoneInfoField;
-    @FXML private ScrollPane phoneCmp1;
-    @FXML private ScrollPane phoneCmp2;
-    @FXML private ScrollPane phoneCmp3;
-    @FXML private ScrollPane phoneCom1;
-    @FXML private ScrollPane phoneCom2;
-    @FXML private ScrollPane phoneCom3;
-    @FXML private Button phoneRM1Btn;
-    @FXML private Button phoneRM2Btn;
-    @FXML private Button phoneRM3Btn;
+    @FXML
+    private ScrollPane phoneInfoField;
+    @FXML
+    private ScrollPane phoneCmp1;
+    @FXML
+    private ScrollPane phoneCmp2;
+    @FXML
+    private ScrollPane phoneCmp3;
+    @FXML
+    private ScrollPane phoneCom1;
+    @FXML
+    private ScrollPane phoneCom2;
+    @FXML
+    private ScrollPane phoneCom3;
+    @FXML
+    private Button phoneRM1Btn;
+    @FXML
+    private Button phoneRM2Btn;
+    @FXML
+    private Button phoneRM3Btn;
 
-    @FXML private Button pcCmpBtn;
-    @FXML private Button phoneCmpBtn;
-    @FXML private Button pcSortByPriceBtn;
-    @FXML private Button pcSortByRatingBtn;
-    @FXML private Button phoneSortByPriceBtn;
-    @FXML private Button phoneSortByRatingBtn;
+    @FXML
+    private Button pcCmpBtn;
+    @FXML
+    private Button phoneCmpBtn;
+    @FXML
+    private Button pcSortByPriceBtn;
+    @FXML
+    private Button pcSortByRatingBtn;
+    @FXML
+    private Button phoneSortByPriceBtn;
+    @FXML
+    private Button phoneSortByRatingBtn;
 
-    @FXML private Button btnApplyFilterPhone;
+    @FXML
+    private Button btnApplyFilterPhone;
 
     private static Service<PC> pcService;
     private static Service<Phone> phoneService;
@@ -113,6 +173,9 @@ public class Controller{
         phones = phoneService.getProducts();
     }
 
+    /**
+     * Registers all event handlers of the computer components in the ui layer
+     */
     public void registerPCHandlers() {
         cBoxBrandPC.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -198,7 +261,9 @@ public class Controller{
         cBoxMinRatingPC.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldProduct, String newProduct) {
-                if(newProduct != null){filters.put("avgRating", newProduct);}
+                if (newProduct != null) {
+                    filters.put("avgRating", newProduct);
+                }
             }
         });
         btnApplyFilterPC.setOnAction(new EventHandler<ActionEvent>() {
@@ -231,8 +296,8 @@ public class Controller{
                     }
 
                     List<PC> filtered = pcService.getProductsByFilter(filters);
-                    for(PC p: filtered){
-                        p.setAvgRating(calculateAvg(getComments(p.getId(),false)));
+                    for (PC p : filtered) {
+                        p.setAvgRating(calculateAvg(getComments(p.getId(), false)));
                     }
                     if (filters.get("avgRating") != null) {
                         filtered.removeIf(product -> ((((PC) product).getAvgRating()) < Float
@@ -283,19 +348,26 @@ public class Controller{
         });
     }
 
+    /**
+     * Registers all event handlers of the phone components in the ui layer
+     */
     public void registerPhoneHandlers() {
         cBoxBrandPhone.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldProduct, String newProduct) {
 
-                if(newProduct != null){filters.put("brand", newProduct);}
+                if (newProduct != null) {
+                    filters.put("brand", newProduct);
+                }
             }
         });
 
         cBoxMinRatingPhone.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldProduct, String newProduct) {
-                if(newProduct != null){filters.put("avgRating", newProduct);}
+                if (newProduct != null) {
+                    filters.put("avgRating", newProduct);
+                }
             }
         });
 
@@ -383,8 +455,8 @@ public class Controller{
                         filters.put("maxScreen", txtMaxScreenPhone.getText());
                     }
                     List<Phone> filtered = phoneService.getProductsByFilter(filters);
-                    for(Phone p: filtered){
-                        p.setAvgRating(calculateAvg(getComments(p.getId(),false)));
+                    for (Phone p : filtered) {
+                        p.setAvgRating(calculateAvg(getComments(p.getId(), false)));
                     }
                     if (filters.get("avgRating") != null) {
                         filtered.removeIf(product -> ((((Phone) product).getAvgRating()) < Float
@@ -408,7 +480,6 @@ public class Controller{
                         }
                     });
 
-
                     txtMinPricePhone.setText(null);
                     txtMaxPricePhone.setText(null);
                     txtMinStoragePhone.setText(null);
@@ -424,7 +495,7 @@ public class Controller{
                     radioTouchscreenPhone.setSelected(false);
 
                     filters.clear();
-                  
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (URISyntaxException e) {
@@ -434,6 +505,9 @@ public class Controller{
         });
     }
 
+    /**
+     * Aggregator function for registration of ui component event handlers
+     */
     public void registerEventHandlers() {
         tabs.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
             @Override
@@ -447,6 +521,10 @@ public class Controller{
 
     }
 
+    /**
+     * Dynamically creates the computer brand filter by generating aggregation of brands of
+     * all computers
+     */
     public void setBrandFilterPC() {
         ArrayList<String> brands = new ArrayList<String>();
         computers.forEach(product -> {
@@ -457,6 +535,10 @@ public class Controller{
         cBoxBrandPC.setItems(FXCollections.observableArrayList(brands));
     }
 
+    /**
+     * Dynamically creates the computer model filter by generating aggregation of models of
+     * all computers
+     */
     public void setModelFilterPC() {
         ArrayList<String> models = new ArrayList<String>();
         computers.forEach(product -> {
@@ -467,6 +549,10 @@ public class Controller{
         cBoxModelPC.setItems(FXCollections.observableArrayList(models));
     }
 
+    /**
+     * Dynamically creates the computer processor filter by generating aggregation of processors of
+     * all computers
+     */
     public void setProcessorFilterPC() {
         ArrayList<String> processors = new ArrayList<String>();
         computers.forEach(product -> {
@@ -477,6 +563,10 @@ public class Controller{
         cBoxProcessorPC.setItems(FXCollections.observableArrayList(processors));
     }
 
+    /**
+     * Dynamically creates the computer rating filter by generating aggregation of ratings of
+     * all computers
+     */
     public void setRatingFilterPC() {
         ArrayList<String> ratings = new ArrayList<String>() {
             {
@@ -491,6 +581,10 @@ public class Controller{
         cBoxMinRatingPC.setItems(FXCollections.observableArrayList(ratings));
     }
 
+    /**
+     * Dynamically creates the phone brand filter by generating aggregation of brands of
+     * all phones
+     */
     public void setBrandFilterPhone() {
         ArrayList<String> brands = new ArrayList<String>();
         phones.forEach(product -> {
@@ -501,6 +595,10 @@ public class Controller{
         cBoxBrandPhone.setItems(FXCollections.observableArrayList(brands));
     }
 
+    /**
+     * Dynamically creates the phone model filter by generating aggregation of models of
+     * all phones
+     */
     public void setModelFilterPhone() {
         ArrayList<String> models = new ArrayList<String>();
         phones.forEach(product -> {
@@ -511,6 +609,10 @@ public class Controller{
         cBoxModelPhone.setItems(FXCollections.observableArrayList(models));
     }
 
+    /**
+     * Dynamically creates the phone rating filter by generating aggregation of ratings of
+     * all phones
+     */
     public void setRatingFilterPhone() {
         ArrayList<String> ratings = new ArrayList<String>() {
             {
@@ -525,6 +627,9 @@ public class Controller{
         cBoxMinRatingPhone.setItems(FXCollections.observableArrayList(ratings));
     }
 
+    /**
+     * @throws IOException
+     */
     public void setFilters() throws IOException {
         setBrandFilterPC();
         setModelFilterPC();
@@ -538,6 +643,7 @@ public class Controller{
 
     /**
      * method to run on initialization of the application.
+     * 
      * @throws IOException
      */
     @FXML
@@ -553,31 +659,32 @@ public class Controller{
     /**
      * Initializes all scroll panes in the GUI by setting them empty.
      */
-    public void initAllScrollPane(){
-        freeCmp(0,true);
-        freeCmp(1,true);
-        freeCmp(2,true);
-        freeCmp(3,true);
-        freeCmp(0,false);
-        freeCmp(1,false);
-        freeCmp(2,false);
-        freeCmp(3,false);
+    public void initAllScrollPane() {
+        freeCmp(0, true);
+        freeCmp(1, true);
+        freeCmp(2, true);
+        freeCmp(3, true);
+        freeCmp(0, false);
+        freeCmp(1, false);
+        freeCmp(2, false);
+        freeCmp(3, false);
     }
 
     /**
-     * Handles selections on the listview. Upon clicking or using keyboard
-     * to select a list item, displays the information related to selected
-     * item in the right side scroll pane.
+     * Handles selections on the listview. Upon clicking or using keyboard to select
+     * a list item, displays the information related to selected item in the right
+     * side scroll pane.
+     * 
      * @throws IOException
      */
-    public void selectionEventHandlers() throws IOException{
+    public void selectionEventHandlers() throws IOException {
         listViewPC.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
-            public void handle(MouseEvent event){
+            public void handle(MouseEvent event) {
                 Object o = listViewPC.getSelectionModel().getSelectedItem();
-                if(o!=null) {
+                if (o != null) {
                     PC pc = (PC) o;
-                    showInfo(pc, true,0);
+                    showInfo(pc, true, 0);
                 }
             }
         });
@@ -586,9 +693,9 @@ public class Controller{
             @Override
             public void handle(KeyEvent keyEvent) {
                 Object o = listViewPC.getSelectionModel().getSelectedItem();
-                if(o!=null) {
+                if (o != null) {
                     PC c = (PC) o;
-                    showInfo(c, true,0);
+                    showInfo(c, true, 0);
                 }
             }
         });
@@ -597,9 +704,9 @@ public class Controller{
             @Override
             public void handle(MouseEvent event) {
                 Object o = listViewPhone.getSelectionModel().getSelectedItem();
-                if(o!=null) {
+                if (o != null) {
                     Phone c = (Phone) o;
-                    showInfo(c, false,0);
+                    showInfo(c, false, 0);
                 }
             }
         });
@@ -608,20 +715,21 @@ public class Controller{
             @Override
             public void handle(KeyEvent keyEvent) {
                 Object o = listViewPhone.getSelectionModel().getSelectedItem();
-                if(o!=null) {
+                if (o != null) {
                     Phone c = (Phone) o;
-                    showInfo(c, false,0);
+                    showInfo(c, false, 0);
                 }
             }
         });
     }
 
     /**
-     * Handles sort buttons. Based on the clicked button,
-     * executes sorting operation.
+     * Handles sort buttons. Based on the clicked button, executes sorting
+     * operation.
+     * 
      * @param event
      */
-    public void sortPressed(ActionEvent event){
+    public void sortPressed(ActionEvent event) {
         String test = event.toString();
         try {
             if (test.contains("pc")) {
@@ -633,7 +741,7 @@ public class Controller{
                     for (int i = 0; i < ol.size(); i++) {
                         PC temp = (PC) ol.get(i);
                         temp.setAvgRating(calculateAvg(getComments(temp.getId(), true)));
-                        ol.set(i,temp);
+                        ol.set(i, temp);
                     }
                     Comparator<PC> ratingComparator = Comparator.comparing(PC::getAvgRating);
                     ol.sort(ratingComparator.reversed());
@@ -647,110 +755,132 @@ public class Controller{
                     for (int i = 0; i < ol.size(); i++) {
                         Phone temp = (Phone) ol.get(i);
                         temp.setAvgRating(calculateAvg(getComments(temp.getId(), true)));
-                        ol.set(i,temp);
+                        ol.set(i, temp);
                     }
                     Comparator<Phone> ratingComparator = Comparator.comparing(Phone::getAvgRating);
                     ol.sort(ratingComparator.reversed());
                 }
             }
+        } catch (Exception e) {
+            System.out.println(e);
         }
-        catch(Exception e){System.out.println(e);}
     }
 
     /**
-     * Handles compare button clicks. Checks the isEmpty array
-     * for the availability of the all slots. If any slot is empty,
-     * calls the showInfo function with corresponding values,
-     * to set the contents of corresponding scrollpanes.
+     * Handles compare button clicks. Checks the isEmpty array for the availability
+     * of the all slots. If any slot is empty, calls the showInfo function with
+     * corresponding values, to set the contents of corresponding scrollpanes.
      * Otherwise, generates an alert.
+     * 
      * @param event
      */
-    public void comparePressed(ActionEvent event){
+    public void comparePressed(ActionEvent event) {
         String test = event.toString();
-        if(test.contains("pc")){
-            if(isEmpty[0]){
+        if (test.contains("pc")) {
+            if (isEmpty[0]) {
                 Alert a = new Alert(Alert.AlertType.WARNING);
                 a.setTitle("Please select an item!");
                 a.setHeaderText("Please select an item first!");
-                a.setContentText("You should select an item first and then press compare button to compare multiple computers.");
+                a.setContentText(
+                        "You should select an item first and then press compare button to compare multiple computers.");
                 a.show();
-            }
-            else if(isEmpty[1]){
-                PC o = (PC)listViewPC.getSelectionModel().getSelectedItem();
-                showInfo(o,true,1);
+            } else if (isEmpty[1]) {
+                PC o = (PC) listViewPC.getSelectionModel().getSelectedItem();
+                showInfo(o, true, 1);
 
-            }
-            else if(isEmpty[2]){
-                PC o = (PC)listViewPC.getSelectionModel().getSelectedItem();
-                showInfo(o,true,2);
-            }
-            else if(isEmpty[3]){
-                PC o = (PC)listViewPC.getSelectionModel().getSelectedItem();
-                showInfo(o,true,3);
-            }
-            else{
+            } else if (isEmpty[2]) {
+                PC o = (PC) listViewPC.getSelectionModel().getSelectedItem();
+                showInfo(o, true, 2);
+            } else if (isEmpty[3]) {
+                PC o = (PC) listViewPC.getSelectionModel().getSelectedItem();
+                showInfo(o, true, 3);
+            } else {
                 Alert a = new Alert(Alert.AlertType.WARNING);
                 a.setTitle("Please remove an item!");
                 a.setHeaderText("All comparison fields are full!");
-                a.setContentText("You should clear a comparison field by pressing one of the remove buttons located on the left.");
+                a.setContentText(
+                        "You should clear a comparison field by pressing one of the remove buttons located on the left.");
                 a.show();
             }
-        }
-        else{
-            if(isEmpty[4]){
+        } else {
+            if (isEmpty[4]) {
                 System.out.println(isEmpty[4]);
                 Alert a = new Alert(Alert.AlertType.WARNING);
                 a.setTitle("Please select an item!");
                 a.setHeaderText("Please select an item first!");
-                a.setContentText("You should select an item first and then press compare button to compare multiple computers.");
+                a.setContentText(
+                        "You should select an item first and then press compare button to compare multiple computers.");
                 a.show();
-            }
-            else if(isEmpty[5]){
-                Phone o = (Phone)listViewPhone.getSelectionModel().getSelectedItem();
-                showInfo(o,false,1);
-            }
-            else if(isEmpty[6]){
-                Phone o = (Phone)listViewPhone.getSelectionModel().getSelectedItem();
-                showInfo(o,false,2);
-            }
-            else if(isEmpty[7]){
-                Phone o = (Phone)listViewPhone.getSelectionModel().getSelectedItem();
-                showInfo(o,false,3);
-            }
-            else{
+            } else if (isEmpty[5]) {
+                Phone o = (Phone) listViewPhone.getSelectionModel().getSelectedItem();
+                showInfo(o, false, 1);
+            } else if (isEmpty[6]) {
+                Phone o = (Phone) listViewPhone.getSelectionModel().getSelectedItem();
+                showInfo(o, false, 2);
+            } else if (isEmpty[7]) {
+                Phone o = (Phone) listViewPhone.getSelectionModel().getSelectedItem();
+                showInfo(o, false, 3);
+            } else {
                 Alert a = new Alert(Alert.AlertType.WARNING);
                 a.setTitle("Please remove an item!");
                 a.setHeaderText("All comparison fields are full!");
-                a.setContentText("You should clear a comparison field by pressing one of the remove buttons located on the left.");
+                a.setContentText(
+                        "You should clear a comparison field by pressing one of the remove buttons located on the left.");
                 a.show();
             }
         }
     }
 
     /**
-     * Clears the content of selected area in GUI. Selection process is completed with id and isPc parameters.
-     * If id is 0, the product will be shown in the right, short term panel. If id is between 1 to 3,
-     * the product will be shown on the corresponding scrollpanes in the bottom numerated from left to right.
-     * @param id id of the position to be changed.
-     * @param isPc Boolean variable, true if product is a computer, false if product is a phone
+     * Clears the content of selected area in GUI. Selection process is completed
+     * with id and isPc parameters. If id is 0, the product will be shown in the
+     * right, short term panel. If id is between 1 to 3, the product will be shown
+     * on the corresponding scrollpanes in the bottom numerated from left to right.
+     * 
+     * @param id   id of the position to be changed.
+     * @param isPc Boolean variable, true if product is a computer, false if product
+     *             is a phone
      */
-    private void freeCmp(int id,boolean isPc){
+    private void freeCmp(int id, boolean isPc) {
         Text text = new Text("");
         ScrollPane ref, ref2;
-        if(isPc){
-            switch(id){
-                case 0: ref = pcInfoField; ref2 = null; break;
-                case 1: ref = pcCmp1; ref2 = pcCom1; break;
-                case 2: ref = pcCmp2; ref2 = pcCom2; break;
-                default: ref = pcCmp3; ref2 = pcCom3; break;
+        if (isPc) {
+            switch (id) {
+                case 0:
+                    ref = pcInfoField;
+                    ref2 = null;
+                    break;
+                case 1:
+                    ref = pcCmp1;
+                    ref2 = pcCom1;
+                    break;
+                case 2:
+                    ref = pcCmp2;
+                    ref2 = pcCom2;
+                    break;
+                default:
+                    ref = pcCmp3;
+                    ref2 = pcCom3;
+                    break;
             }
-        }
-        else{
-            switch(id){
-                case 0: ref = phoneInfoField; ref2 = null; break;
-                case 1: ref = phoneCmp1; ref2 = phoneCom1; break;
-                case 2: ref = phoneCmp2; ref2 = phoneCom2; break;
-                default: ref = phoneCmp3; ref2 = phoneCom3; break;
+        } else {
+            switch (id) {
+                case 0:
+                    ref = phoneInfoField;
+                    ref2 = null;
+                    break;
+                case 1:
+                    ref = phoneCmp1;
+                    ref2 = phoneCom1;
+                    break;
+                case 2:
+                    ref = phoneCmp2;
+                    ref2 = phoneCom2;
+                    break;
+                default:
+                    ref = phoneCmp3;
+                    ref2 = phoneCom3;
+                    break;
             }
             id += 4;
         }
@@ -759,7 +889,7 @@ public class Controller{
         ref.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         ref.setContent(text);
 
-        if(ref2!=null){
+        if (ref2 != null) {
             ref2.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
             ref2.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
             ref2.setContent(text);
@@ -767,47 +897,74 @@ public class Controller{
     }
 
     /**
-     * Shows the information related to requested product object (p) in the application GUI.
-     * Position is selected with isPc and id parameters.
-     * If id is 0, the product will be shown in the right, short term panel.
-     * If id is between 1 to 3, the product will be shown on the corresponding Scroll Panes in the bottom numerated from left to right.
-     * Bottom Scroll Panes are split in two parts. Each part is controlled with separate threads.
-     * @param p Product object
-     * @param isPc Boolean variable, true if product is a computer, false if product is a phone
-     * @param id id of the position to be changed.
+     * Shows the information related to requested product object (p) in the
+     * application GUI. Position is selected with isPc and id parameters. If id is
+     * 0, the product will be shown in the right, short term panel. If id is between
+     * 1 to 3, the product will be shown on the corresponding Scroll Panes in the
+     * bottom numerated from left to right. Bottom Scroll Panes are split in two
+     * parts. Each part is controlled with separate threads.
+     * 
+     * @param p    Product object
+     * @param isPc Boolean variable, true if product is a computer, false if product
+     *             is a phone
+     * @param id   id of the position to be changed.
      */
-    private void showInfo(Product p,boolean isPc,int id){
+    private void showInfo(Product p, boolean isPc, int id) {
         ScrollPane ref, ref2;
         long productID;
-        if(isPc){
+        if (isPc) {
             productID = ((PC) listViewPC.getSelectionModel().getSelectedItem()).getId();
-            switch(id){
-                case 0: ref = pcInfoField; ref2 = null; break;
-                case 1: ref = pcCmp1; ref2 = pcCom1; break;
-                case 2: ref = pcCmp2; ref2 = pcCom2; break;
-                default: ref = pcCmp3; ref2 = pcCom3; break;
+            switch (id) {
+                case 0:
+                    ref = pcInfoField;
+                    ref2 = null;
+                    break;
+                case 1:
+                    ref = pcCmp1;
+                    ref2 = pcCom1;
+                    break;
+                case 2:
+                    ref = pcCmp2;
+                    ref2 = pcCom2;
+                    break;
+                default:
+                    ref = pcCmp3;
+                    ref2 = pcCom3;
+                    break;
             }
-        }
-        else{
+        } else {
             productID = ((Phone) listViewPhone.getSelectionModel().getSelectedItem()).getId();
-            switch(id){
-                case 0: ref = phoneInfoField; ref2 = null; break;
-                case 1: ref = phoneCmp1; ref2 = phoneCom1; break;
-                case 2: ref = phoneCmp2; ref2 = phoneCom2; break;
-                default: ref = phoneCmp3; ref2 = phoneCom3; break;
+            switch (id) {
+                case 0:
+                    ref = phoneInfoField;
+                    ref2 = null;
+                    break;
+                case 1:
+                    ref = phoneCmp1;
+                    ref2 = phoneCom1;
+                    break;
+                case 2:
+                    ref = phoneCmp2;
+                    ref2 = phoneCom2;
+                    break;
+                default:
+                    ref = phoneCmp3;
+                    ref2 = phoneCom3;
+                    break;
             }
             id += 4;
         }
         ref.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         ref.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-        if(ref2!=null) {
+        if (ref2 != null) {
             ref2.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
             ref2.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         }
-        String temp = p.returnDetails();;
+        String temp = p.returnDetails();
+        ;
         int count = 0;
         try {
-            if(id==0 || id==4) {
+            if (id == 0 || id == 4) {
                 String strings[] = getFeatures(productID, isPc);
                 Comment comments[] = getComments(productID, isPc);
                 for (String s : strings) {
@@ -836,137 +993,127 @@ public class Controller{
                 Text text = new Text(temp);
                 ref.setContent(text);
                 isEmpty[id] = false;
-            }
-            else{
-                CommentThread commentThread = new CommentThread("commentThread",productID,isPc);
+            } else {
+                CommentThread commentThread = new CommentThread("commentThread", productID, isPc);
                 commentThread.start();
-                DetailsThread detailsThread = new DetailsThread("detailsThread",productID,isPc,temp);
+                DetailsThread detailsThread = new DetailsThread("detailsThread", productID, isPc, temp);
                 detailsThread.start();
 
-                try{
+                try {
                     commentThread.join();
                     detailsThread.join();
-                }catch (Exception e){}
+                } catch (Exception e) {
+                }
 
                 ref.setContent(new Text(detailsThread.text));
                 ref2.setContent(new Text(commentThread.text));
                 isEmpty[id] = false;
             }
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e);
         }
     }
 
     /**
-     * handles remove item 1,2, and 3 buttons clicks.
-     * Upon clicking any of the buttons, it checks the isEmpty array
-     * for the availability of the selected slots. If it is not empty,
-     * clears the contents of the selected location and sets the corresponding
-     * position in isEmpty array to empty(true). Otherwise, generated an alert.
+     * handles remove item 1,2, and 3 buttons clicks. Upon clicking any of the
+     * buttons, it checks the isEmpty array for the availability of the selected
+     * slots. If it is not empty, clears the contents of the selected location and
+     * sets the corresponding position in isEmpty array to empty(true). Otherwise,
+     * generated an alert.
+     * 
      * @param event
      */
-    public void removePressed(ActionEvent event){
+    public void removePressed(ActionEvent event) {
         String test = event.toString();
-        if(test.contains("pc")){
-            //Handle pc here
-            if(test.contains("RM1")){
-                if(isEmpty[1]){
+        if (test.contains("pc")) {
+            // Handle pc here
+            if (test.contains("RM1")) {
+                if (isEmpty[1]) {
                     Alert a = new Alert(Alert.AlertType.INFORMATION);
                     a.setTitle("Already empty");
                     a.setHeaderText("Item 1 is already empty");
                     a.show();
+                } else {
+                    freeCmp(1, true);
                 }
-                else{
-                    freeCmp(1,true);
-                }
-            }
-            else if(test.contains("RM2")){
-                if(isEmpty[2]){
+            } else if (test.contains("RM2")) {
+                if (isEmpty[2]) {
                     Alert a = new Alert(Alert.AlertType.INFORMATION);
                     a.setTitle("Already empty");
                     a.setHeaderText("Item 2 is already empty");
                     a.show();
+                } else {
+                    freeCmp(2, true);
                 }
-                else{
-                    freeCmp(2,true);
-                }
-            }
-            else{
-                if(isEmpty[3]){
+            } else {
+                if (isEmpty[3]) {
                     Alert a = new Alert(Alert.AlertType.INFORMATION);
                     a.setTitle("Already empty");
                     a.setHeaderText("Item 3 is already empty");
                     a.show();
-                }
-                else{
-                    freeCmp(3,true);
+                } else {
+                    freeCmp(3, true);
                 }
             }
-        }
-        else{
-            //Handle phone here
-            if(test.contains("RM1")){
-                if(isEmpty[5]){
+        } else {
+            // Handle phone here
+            if (test.contains("RM1")) {
+                if (isEmpty[5]) {
                     Alert a = new Alert(Alert.AlertType.INFORMATION);
                     a.setTitle("Already empty");
                     a.setHeaderText("Item 1 is already empty");
                     a.show();
+                } else {
+                    freeCmp(1, false);
                 }
-                else{
-                    freeCmp(1,false);
-                }
-            }
-            else if(test.contains("RM2")){
-                if(isEmpty[6]){
+            } else if (test.contains("RM2")) {
+                if (isEmpty[6]) {
                     Alert a = new Alert(Alert.AlertType.INFORMATION);
                     a.setTitle("Already empty");
                     a.setHeaderText("Item 2 is already empty");
                     a.show();
+                } else {
+                    freeCmp(2, false);
                 }
-                else{
-                    freeCmp(2,false);
-                }
-            }
-            else{
-                if(isEmpty[7]){
+            } else {
+                if (isEmpty[7]) {
                     Alert a = new Alert(Alert.AlertType.INFORMATION);
                     a.setTitle("Already empty");
                     a.setHeaderText("Item 3 is already empty");
                     a.show();
-                }
-                else{
-                    freeCmp(3,false);
+                } else {
+                    freeCmp(3, false);
                 }
             }
         }
     }
 
     /**
-     * Gets the comments of the product with given id. Product type is checked
-     * with isPc parameter.
-     * @param id id of the product.
-     * @param isPc Boolean variable, true if product is a computer, false if product is a phone
+     * Gets the comments of the product with given id. Product type is checked with
+     * isPc parameter.
+     * 
+     * @param id   id of the product.
+     * @param isPc Boolean variable, true if product is a computer, false if product
+     *             is a phone
      * @return list of comment objects that belong to the product.
      * @throws IOException
      */
-    public static Comment[] getComments(long id,boolean isPc) throws IOException {
+    public static Comment[] getComments(long id, boolean isPc) throws IOException {
         HttpURLConnection connection;
         String url = "http://localhost:8080/";
-        if(isPc){
-            url += "computers/"+id+"/comments/";
-            connection = (HttpURLConnection)new URL(url).openConnection();
-        }
-        else{
-            url += "phones/"+id+"/comments/";
-            connection = (HttpURLConnection)new URL(url).openConnection();
+        if (isPc) {
+            url += "computers/" + id + "/comments/";
+            connection = (HttpURLConnection) new URL(url).openConnection();
+        } else {
+            url += "phones/" + id + "/comments/";
+            connection = (HttpURLConnection) new URL(url).openConnection();
         }
         connection.setRequestMethod("GET");
         String response = "";
         int responseCode = connection.getResponseCode();
-        if (responseCode==200){
+        if (responseCode == 200) {
             Scanner scanner = new Scanner(connection.getInputStream());
-            while(scanner.hasNextLine()){
+            while (scanner.hasNextLine()) {
                 response += scanner.nextLine();
                 response += "\n";
             }
@@ -975,42 +1122,43 @@ public class Controller{
         JSONArray jsonArray = new JSONArray(response);
         int length = jsonArray.length();
         Comment comments[] = new Comment[length];
-        for(int i=0;i<length;i++){
+        for (int i = 0; i < length; i++) {
             String s = jsonArray.getJSONObject(i).getString("comment");
             int r = jsonArray.getJSONObject(i).getInt("rating");
             long t = jsonArray.getJSONObject(i).getLong("timestamp");
-            comments[i] = new Comment(s,r,t);
+            comments[i] = new Comment(s, r, t);
         }
         Comparator<Comment> commentComparator = Comparator.comparing(Comment::getTimestamp).reversed();
-        Arrays.sort(comments,commentComparator);
+        Arrays.sort(comments, commentComparator);
         return comments;
     }
 
     /**
-     * Gets the features of the product with given id. Product type is checked
-     * with isPc parameter.
-     * @param id id of the product.
-     * @param isPc Boolean variable, true if product is a computer, false if product is a phone
+     * Gets the features of the product with given id. Product type is checked with
+     * isPc parameter.
+     * 
+     * @param id   id of the product.
+     * @param isPc Boolean variable, true if product is a computer, false if product
+     *             is a phone
      * @return list of features of the product
      * @throws IOException
      */
-    public static String[] getFeatures(long id,boolean isPc) throws IOException{
+    public static String[] getFeatures(long id, boolean isPc) throws IOException {
         HttpURLConnection connection;
         String url = "http://localhost:8080/";
-        if(isPc){
-            url += "computers/"+id+"/features/";
-            connection = (HttpURLConnection)new URL(url).openConnection();
-        }
-        else{
-            url += "phones/"+id+"/features/";
-            connection = (HttpURLConnection)new URL(url).openConnection();
+        if (isPc) {
+            url += "computers/" + id + "/features/";
+            connection = (HttpURLConnection) new URL(url).openConnection();
+        } else {
+            url += "phones/" + id + "/features/";
+            connection = (HttpURLConnection) new URL(url).openConnection();
         }
         connection.setRequestMethod("GET");
         String response = "";
         int responseCode = connection.getResponseCode();
-        if (responseCode==200){
+        if (responseCode == 200) {
             Scanner scanner = new Scanner(connection.getInputStream());
-            while(scanner.hasNextLine()){
+            while (scanner.hasNextLine()) {
                 response += scanner.nextLine();
                 response += "\n";
             }
@@ -1019,7 +1167,7 @@ public class Controller{
         JSONArray jsonArray = new JSONArray(response);
         int length = jsonArray.length();
         String features[] = new String[length];
-        for(int i=0;i<length;i++){
+        for (int i = 0; i < length; i++) {
             features[i] = jsonArray.getJSONObject(i).getString("feature");
         }
 
@@ -1028,30 +1176,32 @@ public class Controller{
 
     /**
      * calculates the average rating from the given list of comments.
+     * 
      * @param comments list of Comment objects
      * @return average rating of given list of comments.
      */
-    private float calculateAvg(Comment comments[]){
+    private float calculateAvg(Comment comments[]) {
         float avg = 0;
-        for(Comment c:comments){
-            avg += c.getRating()/((float)(comments.length));
+        for (Comment c : comments) {
+            avg += c.getRating() / ((float) (comments.length));
         }
         return avg;
     }
 
     /**
-     * initializes all computers upon running the application by getting
-     * all the available computers and lists them at the initialization of the application.
+     * initializes all computers upon running the application by getting all the
+     * available computers and lists them at the initialization of the application.
+     * 
      * @throws IOException
      */
-    private void showAllPc() throws IOException{
+    private void showAllPc() throws IOException {
         String response = "";
-        HttpURLConnection connection = (HttpURLConnection)new URL("http://localhost:8080/computers").openConnection();
+        HttpURLConnection connection = (HttpURLConnection) new URL("http://localhost:8080/computers").openConnection();
         connection.setRequestMethod("GET");
         int responseCode = connection.getResponseCode();
-        if (responseCode==200){
+        if (responseCode == 200) {
             Scanner scanner = new Scanner(connection.getInputStream());
-            while(scanner.hasNextLine()){
+            while (scanner.hasNextLine()) {
                 response += scanner.nextLine();
                 response += "\n";
             }
@@ -1060,7 +1210,7 @@ public class Controller{
         JSONArray jsonArray = new JSONArray(response);
         int length = jsonArray.length();
         PC pc;
-        for(int i=0;i<jsonArray.length();i++){
+        for (int i = 0; i < jsonArray.length(); i++) {
             pc = new PC();
             double r = jsonArray.getJSONObject(i).getDouble("price");
             pc.setPrice(r);
@@ -1080,25 +1230,26 @@ public class Controller{
             pc.setScreenResolution(res);
             long id = jsonArray.getJSONObject(i).getLong("id");
             pc.setId(id);
-            pc.setAvgRating(calculateAvg(getComments(id,true)));
+            pc.setAvgRating(calculateAvg(getComments(id, true)));
 
             listViewPC.getItems().add(pc);
         }
     }
 
     /**
-     * initializes all phones upon running the application by getting
-     * all the available phones and lists them at the initialization of the application.
+     * initializes all phones upon running the application by getting all the
+     * available phones and lists them at the initialization of the application.
+     * 
      * @throws IOException
      */
-    private void showAllPhone() throws IOException{
+    private void showAllPhone() throws IOException {
         String response = "";
-        HttpURLConnection connection = (HttpURLConnection)new URL("http://localhost:8080/phones").openConnection();
+        HttpURLConnection connection = (HttpURLConnection) new URL("http://localhost:8080/phones").openConnection();
         connection.setRequestMethod("GET");
         int responseCode = connection.getResponseCode();
-        if (responseCode==200){
+        if (responseCode == 200) {
             Scanner scanner = new Scanner(connection.getInputStream());
-            while(scanner.hasNextLine()){
+            while (scanner.hasNextLine()) {
                 response += scanner.nextLine();
                 response += "\n";
             }
@@ -1107,7 +1258,7 @@ public class Controller{
         JSONArray jsonArray = new JSONArray(response);
         int length = jsonArray.length();
         Phone phone;
-        for(int i=0;i<length;i++){
+        for (int i = 0; i < length; i++) {
 
             phone = new Phone();
             double r = jsonArray.getJSONObject(i).getDouble("price");
@@ -1122,7 +1273,7 @@ public class Controller{
             phone.setInternalMemory(im);
             long id = jsonArray.getJSONObject(i).getLong("id");
             phone.setId(id);
-            phone.setAvgRating(calculateAvg(getComments(id,false)));
+            phone.setAvgRating(calculateAvg(getComments(id, false)));
             listViewPhone.getItems().add(phone);
         }
 
