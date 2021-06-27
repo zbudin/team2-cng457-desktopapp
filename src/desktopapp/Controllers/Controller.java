@@ -29,105 +29,39 @@ public class Controller{
 
     private static boolean isEmpty[] = {true,true,true,true,true,true,true,true};
 
-    @FXML
-    private TabPane tabs;
-
-    @FXML
-    private TextField txtMinPricePC;
-
-    @FXML
-    private TextField txtMaxPricePC;
-
-    @FXML
-    private ComboBox<String> cBoxBrandPC;
-
-    @FXML
-    private ComboBox<String> cBoxModelPC;
-
-    @FXML
-    private ComboBox<String> cBoxProcessorPC;
-
-    @FXML
-    private TextField txtMinMemoryPC;
-
-    @FXML
-    private TextField txtMaxMemoryPC;
-
-    @FXML
-    private TextField txtMinStoragePC;
-
-    @FXML
-    private TextField txtMinScreenPC;
-
-    @FXML
-    private TextField txtMaxScreenPC;
-
-    @FXML
-    private ComboBox<String> cBoxMinRatingPC;
-
-    @FXML
-    private CheckBox checkBoxLargeMemoryPC;
-
-    @FXML
-    private CheckBox checkBoxLargeStoragePC;
-
-    @FXML
-    private RadioButton radioTouchscreenPC;
-
-    @FXML
-    private RadioButton radioLongBatteryPC;
-
-    @FXML
-    private RadioButton radioFaceRecPC;
-
-    @FXML
-    private ListView<PC> listViewPC;
-
-    @FXML
-    private Button btnApplyFilterPC;
-
-    @FXML
-    private TextField txtMinPricePhone;
-
-    @FXML
-    private TextField txtMaxPricePhone;
-
-    @FXML
-    private ComboBox<String> cBoxBrandPhone;
-
-    @FXML
-    private ComboBox<String> cBoxModelPhone;
-
-    @FXML
-    private TextField txtMinStoragePhone;
-
-    @FXML
-    private TextField txtMinScreenPhone;
-
-    @FXML
-    private TextField txtMaxScreenPhone;
-
-    @FXML
-    private ComboBox<String> cBoxMinRatingPhone;
-
-    @FXML
-    private CheckBox checkBoxLargeScreenPhone;
-
-    @FXML
-    private CheckBox checkBoxLargeStoragePhone;
-
-    @FXML
-    private RadioButton radioTouchscreenPhone;
-
-    @FXML
-    private RadioButton radioLongBatteryPhone;
-
-    @FXML
-    private RadioButton radioFaceRecPhone;
-
-    @FXML
-    private ListView<Phone> listViewPhone;
-
+    @FXML private TabPane tabs;
+    @FXML private TextField txtMinPricePC;
+    @FXML private TextField txtMaxPricePC;
+    @FXML private ComboBox<String> cBoxBrandPC;
+    @FXML private ComboBox<String> cBoxModelPC;
+    @FXML private ComboBox<String> cBoxProcessorPC;
+    @FXML private TextField txtMinMemoryPC;
+    @FXML private TextField txtMaxMemoryPC;
+    @FXML private TextField txtMinStoragePC;
+    @FXML private TextField txtMinScreenPC;
+    @FXML private TextField txtMaxScreenPC;
+    @FXML private ComboBox<String> cBoxMinRatingPC;
+    @FXML private CheckBox checkBoxLargeMemoryPC;
+    @FXML private CheckBox checkBoxLargeStoragePC;
+    @FXML private RadioButton radioTouchscreenPC;
+    @FXML private RadioButton radioLongBatteryPC;
+    @FXML private RadioButton radioFaceRecPC;
+    @FXML private ListView<PC> listViewPC;
+    @FXML private Button btnApplyFilterPC;
+    @FXML private TextField txtMinPricePhone;
+    @FXML private TextField txtMaxPricePhone;
+    @FXML private ComboBox<String> cBoxBrandPhone;
+    @FXML private ComboBox<String> cBoxModelPhone;
+    @FXML private TextField txtMinStoragePhone;
+    @FXML private TextField txtMinScreenPhone;
+    @FXML private TextField txtMaxScreenPhone;
+    @FXML private ComboBox<String> cBoxMinRatingPhone;
+    @FXML private CheckBox checkBoxLargeScreenPhone;
+    @FXML private CheckBox checkBoxLargeStoragePhone;
+    @FXML private RadioButton radioTouchscreenPhone;
+    @FXML private RadioButton radioLongBatteryPhone;
+    @FXML private RadioButton radioFaceRecPhone;
+    @FXML private ListView<Phone> listViewPhone;
 
     @FXML private ScrollPane pcInfoField;
     @FXML private ScrollPane pcCmp1;
@@ -158,9 +92,7 @@ public class Controller{
     @FXML private Button phoneSortByPriceBtn;
     @FXML private Button phoneSortByRatingBtn;
 
-
-    @FXML
-    private Button btnApplyFilterPhone;
+    @FXML private Button btnApplyFilterPhone;
 
     private static Service<PC> pcService;
     private static Service<Phone> phoneService;
