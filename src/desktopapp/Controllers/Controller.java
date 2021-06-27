@@ -771,21 +771,21 @@ public class Controller{
 
     private void freeCmp(int id,boolean isPc){
         Text text = new Text("");
-        ScrollPane ref;
+        ScrollPane ref, ref2;
         if(isPc){
             switch(id){
-                case 0: ref = pcInfoField; break;
-                case 1: ref = pcCmp1; break;
-                case 2: ref = pcCmp2; break;
-                default: ref = pcCmp3; break;
+                case 0: ref = pcInfoField; ref2 = null; break;
+                case 1: ref = pcCmp1; ref2 = pcCom1; break;
+                case 2: ref = pcCmp2; ref2 = pcCom2; break;
+                default: ref = pcCmp3; ref2 = pcCom3; break;
             }
         }
         else{
             switch(id){
-                case 0: ref = phoneInfoField; break;
-                case 1: ref = phoneCmp1; break;
-                case 2: ref = phoneCmp2; break;
-                default: ref = phoneCmp3; break;
+                case 0: ref = phoneInfoField; ref2 = null; break;
+                case 1: ref = phoneCmp1; ref2 = phoneCom1; break;
+                case 2: ref = phoneCmp2; ref2 = phoneCom2; break;
+                default: ref = phoneCmp3; ref2 = phoneCom3; break;
             }
             id += 4;
         }
@@ -793,6 +793,12 @@ public class Controller{
         ref.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         ref.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         ref.setContent(text);
+
+        if(ref2!=null){
+            ref2.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+            ref2.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+            ref2.setContent(text);
+        }
     }
 
     private void showInfo(Product p,boolean isPc,int id){
@@ -823,8 +829,7 @@ public class Controller{
             ref2.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
             ref2.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         }
-
-        String temp = p.returnDetails();
+        String temp = p.returnDetails();;
         int count = 0;
         try {
             if(id==0 || id==4) {
@@ -836,7 +841,7 @@ public class Controller{
                 }
                 if (comments.length > 0) {
                     temp += "\n\nComments\n";
-                    if (id >= 4) {
+                    if (id == 4) {
                         Phone phone = (Phone) listViewPhone.getSelectionModel().getSelectedItem();
                         phone.setAvgRating(calculateAvg(comments));
                         temp += "\nAverage Rating:" + String.format("%.2f", phone.getAvgRating());
@@ -845,36 +850,37 @@ public class Controller{
                         pc.setAvgRating(calculateAvg(comments));
                         temp += "\nAverage Rating:" + String.format("%.2f", pc.getAvgRating());
                     }
-                    if (id == 0 || id == 4) {
-                        count = 0;
-                        for (Comment c : comments) {
-                            count++;
-                            temp += "\n\nComment " + count + "\n" + c;
-                        }
-                    } else {
-                        count = 0;
-                        for (Comment c : comments) {
-                            count++;
-                            temp += "\n\nComment " + count + "\n" + c;
-                            if (count == 3) {
-                                break;
-                            }
-                        }
+                    count = 0;
+                    for (Comment c : comments) {
+                        count++;
+                        temp += "\n\nComment " + count + "\n" + c;
                     }
                 } else {
                     temp += "\n\nNo one commented to this product yet!";
                 }
+                Text text = new Text(temp);
+                ref.setContent(text);
+                isEmpty[id] = false;
             }
             else{
+                CommentThread commentThread = new CommentThread("commentThread",productID,isPc);
+                commentThread.start();
+                DetailsThread detailsThread = new DetailsThread("detailsThread",productID,isPc,temp);
+                detailsThread.start();
+
+                try{
+                    commentThread.join();
+                    detailsThread.join();
+                }catch (Exception e){}
+
+                ref.setContent(new Text(detailsThread.text));
+                ref2.setContent(new Text(commentThread.text));
+                isEmpty[id] = false;
             }
         }
         catch(Exception e){
             System.out.println(e);
         }
-
-        Text text = new Text(temp);
-        ref.setContent(text);
-        isEmpty[id] = false;
     }
 
     public void removePressed(ActionEvent event){
@@ -953,7 +959,7 @@ public class Controller{
         }
     }
 
-    private Comment[] getComments(long id,boolean isPc) throws IOException {
+    public static Comment[] getComments(long id,boolean isPc) throws IOException {
         HttpURLConnection connection;
         String url = "http://localhost:8080/";
         if(isPc){
@@ -989,7 +995,7 @@ public class Controller{
         return comments;
     }
 
-    private String[] getFeatures(long id,boolean isPc) throws IOException{
+    public static String[] getFeatures(long id,boolean isPc) throws IOException{
         HttpURLConnection connection;
         String url = "http://localhost:8080/";
         if(isPc){
@@ -1021,7 +1027,7 @@ public class Controller{
         return features;
     }
 
-    private float calculateAvg(Comment comments[]){
+    public static float calculateAvg(Comment comments[]){
         float avg = 0;
         for(Comment c:comments){
             avg += c.getRating()/((float)(comments.length));
