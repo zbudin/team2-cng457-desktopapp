@@ -210,7 +210,7 @@
                                         <Insets left="5.0" top="5.0" />
                                     </VBox.margin>
                                     <toggleGroup>
-                                        <ToggleGroup fx:id="group"/>
+                                        <ToggleGroup fx:id="group" />
                                     </toggleGroup>
                                     <font>
                                         <Font name="System Bold" size="12.0" />
@@ -221,7 +221,7 @@
                                         <Insets left="5.0" top="5.0" />
                                     </VBox.margin>
                                     <toggleGroup>
-                                        <fx:reference source="group"/>
+                                        <fx:reference source="group" />
                                     </toggleGroup>
                                     <font>
                                         <Font name="System Bold" size="12.0" />
@@ -232,7 +232,7 @@
                                         <Insets left="5.0" top="5.0" />
                                     </VBox.margin>
                                     <toggleGroup>
-                                        <fx:reference source="group"/>
+                                        <fx:reference source="group" />
                                     </toggleGroup>
                                     <font>
                                         <Font name="System Bold" size="12.0" />
@@ -330,6 +330,7 @@
                                     </columnConstraints>
                                     <rowConstraints>
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                     </rowConstraints>
                                     <children>
                                         <ScrollPane fx:id="pcCmp1" prefHeight="200.0" prefWidth="200.0">
@@ -343,6 +344,21 @@
                                             </content>
                                         </ScrollPane>
                                         <ScrollPane fx:id="pcCmp3" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
+                                            <content>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                                            </content>
+                                        </ScrollPane>
+                                          <ScrollPane fx:id="pcCom1" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                            <content>
+                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                                            </content>
+                                          </ScrollPane>
+                                        <ScrollPane fx:id="pcCom2" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                            <content>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                                            </content>
+                                        </ScrollPane>
+                                        <ScrollPane fx:id="pcCom3" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
                                             <content>
                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
                                             </content>
@@ -519,7 +535,7 @@
                                         <Font name="System Bold" size="12.0" />
                                     </font>
                                     <toggleGroup>
-                                        <ToggleGroup fx:id="phonegroup"/>
+                                        <ToggleGroup fx:id="phonegroup" />
                                     </toggleGroup>
                                 </RadioButton>
                                 <RadioButton fx:id="radioLongBatteryPhone" mnemonicParsing="false" text="All-day Long Battery Life">
@@ -527,7 +543,7 @@
                                         <Insets left="5.0" top="5.0" />
                                     </VBox.margin>
                                     <toggleGroup>
-                                        <fx:reference source="phonegroup"/>
+                                        <fx:reference source="phonegroup" />
                                     </toggleGroup>
                                     <font>
                                         <Font name="System Bold" size="12.0" />
@@ -538,7 +554,7 @@
                                         <Insets left="5.0" top="5.0" />
                                     </VBox.margin>
                                     <toggleGroup>
-                                        <fx:reference source="phonegroup"/>
+                                        <fx:reference source="phonegroup" />
                                     </toggleGroup>
                                     <font>
                                         <Font name="System Bold" size="12.0" />
@@ -636,6 +652,7 @@
                                     </columnConstraints>
                                     <rowConstraints>
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                     </rowConstraints>
                                     <children>
                                         <ScrollPane fx:id="phoneCmp1" prefHeight="200.0" prefWidth="200.0">
@@ -653,6 +670,22 @@
                                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
                                             </content>
                                         </ScrollPane>
+                              <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                        <ScrollPane fx:id="phoneCom1" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                            <content>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                                            </content>
+                                        </ScrollPane>
+                                        <ScrollPane fx:id="phoneCom2" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                            <content>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                                            </content>
+                                        </ScrollPane>
+                                          <ScrollPane fx:id="phoneCom3" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                            <content>
+                                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                                            </content>
+                                          </ScrollPane>
                                     </children>
                                 </GridPane>
                             </children>

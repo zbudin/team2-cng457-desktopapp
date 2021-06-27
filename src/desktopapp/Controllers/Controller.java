@@ -29,110 +29,47 @@ public class Controller{
 
     private static boolean isEmpty[] = {true,true,true,true,true,true,true,true};
 
-    @FXML
-    private TabPane tabs;
-
-    @FXML
-    private TextField txtMinPricePC;
-
-    @FXML
-    private TextField txtMaxPricePC;
-
-    @FXML
-    private ComboBox<String> cBoxBrandPC;
-
-    @FXML
-    private ComboBox<String> cBoxModelPC;
-
-    @FXML
-    private ComboBox<String> cBoxProcessorPC;
-
-    @FXML
-    private TextField txtMinMemoryPC;
-
-    @FXML
-    private TextField txtMaxMemoryPC;
-
-    @FXML
-    private TextField txtMinStoragePC;
-
-    @FXML
-    private TextField txtMinScreenPC;
-
-    @FXML
-    private TextField txtMaxScreenPC;
-
-    @FXML
-    private ComboBox<String> cBoxMinRatingPC;
-
-    @FXML
-    private CheckBox checkBoxLargeMemoryPC;
-
-    @FXML
-    private CheckBox checkBoxLargeStoragePC;
-
-    @FXML
-    private RadioButton radioTouchscreenPC;
-
-    @FXML
-    private RadioButton radioLongBatteryPC;
-
-    @FXML
-    private RadioButton radioFaceRecPC;
-
-    @FXML
-    private ListView<PC> listViewPC;
-
-    @FXML
-    private Button btnApplyFilterPC;
-
-    @FXML
-    private TextField txtMinPricePhone;
-
-    @FXML
-    private TextField txtMaxPricePhone;
-
-    @FXML
-    private ComboBox<String> cBoxBrandPhone;
-
-    @FXML
-    private ComboBox<String> cBoxModelPhone;
-
-    @FXML
-    private TextField txtMinStoragePhone;
-
-    @FXML
-    private TextField txtMinScreenPhone;
-
-    @FXML
-    private TextField txtMaxScreenPhone;
-
-    @FXML
-    private ComboBox<String> cBoxMinRatingPhone;
-
-    @FXML
-    private CheckBox checkBoxLargeScreenPhone;
-
-    @FXML
-    private CheckBox checkBoxLargeStoragePhone;
-
-    @FXML
-    private RadioButton radioTouchscreenPhone;
-
-    @FXML
-    private RadioButton radioLongBatteryPhone;
-
-    @FXML
-    private RadioButton radioFaceRecPhone;
-
-    @FXML
-    private ListView<Phone> listViewPhone;
-
+    @FXML private TabPane tabs;
+    @FXML private TextField txtMinPricePC;
+    @FXML private TextField txtMaxPricePC;
+    @FXML private ComboBox<String> cBoxBrandPC;
+    @FXML private ComboBox<String> cBoxModelPC;
+    @FXML private ComboBox<String> cBoxProcessorPC;
+    @FXML private TextField txtMinMemoryPC;
+    @FXML private TextField txtMaxMemoryPC;
+    @FXML private TextField txtMinStoragePC;
+    @FXML private TextField txtMinScreenPC;
+    @FXML private TextField txtMaxScreenPC;
+    @FXML private ComboBox<String> cBoxMinRatingPC;
+    @FXML private CheckBox checkBoxLargeMemoryPC;
+    @FXML private CheckBox checkBoxLargeStoragePC;
+    @FXML private RadioButton radioTouchscreenPC;
+    @FXML private RadioButton radioLongBatteryPC;
+    @FXML private RadioButton radioFaceRecPC;
+    @FXML private ListView<PC> listViewPC;
+    @FXML private Button btnApplyFilterPC;
+    @FXML private TextField txtMinPricePhone;
+    @FXML private TextField txtMaxPricePhone;
+    @FXML private ComboBox<String> cBoxBrandPhone;
+    @FXML private ComboBox<String> cBoxModelPhone;
+    @FXML private TextField txtMinStoragePhone;
+    @FXML private TextField txtMinScreenPhone;
+    @FXML private TextField txtMaxScreenPhone;
+    @FXML private ComboBox<String> cBoxMinRatingPhone;
+    @FXML private CheckBox checkBoxLargeScreenPhone;
+    @FXML private CheckBox checkBoxLargeStoragePhone;
+    @FXML private RadioButton radioTouchscreenPhone;
+    @FXML private RadioButton radioLongBatteryPhone;
+    @FXML private RadioButton radioFaceRecPhone;
+    @FXML private ListView<Phone> listViewPhone;
 
     @FXML private ScrollPane pcInfoField;
     @FXML private ScrollPane pcCmp1;
     @FXML private ScrollPane pcCmp2;
     @FXML private ScrollPane pcCmp3;
+    @FXML private ScrollPane pcCom1;
+    @FXML private ScrollPane pcCom2;
+    @FXML private ScrollPane pcCom3;
     @FXML private Button pcRM1Btn;
     @FXML private Button pcRM2Btn;
     @FXML private Button pcRM3Btn;
@@ -141,6 +78,9 @@ public class Controller{
     @FXML private ScrollPane phoneCmp1;
     @FXML private ScrollPane phoneCmp2;
     @FXML private ScrollPane phoneCmp3;
+    @FXML private ScrollPane phoneCom1;
+    @FXML private ScrollPane phoneCom2;
+    @FXML private ScrollPane phoneCom3;
     @FXML private Button phoneRM1Btn;
     @FXML private Button phoneRM2Btn;
     @FXML private Button phoneRM3Btn;
@@ -152,9 +92,7 @@ public class Controller{
     @FXML private Button phoneSortByPriceBtn;
     @FXML private Button phoneSortByRatingBtn;
 
-
-    @FXML
-    private Button btnApplyFilterPhone;
+    @FXML private Button btnApplyFilterPhone;
 
     private static Service<PC> pcService;
     private static Service<Phone> phoneService;
@@ -600,6 +538,15 @@ public class Controller{
 
     @FXML
     public void initialize() throws IOException {
+        initAllScrollPane();
+        showAllPc();
+        showAllPhone();
+        selectionEventHandlers();
+        registerEventHandlers();
+        setFilters();
+    }
+
+    public void initAllScrollPane(){
         freeCmp(0,true);
         freeCmp(1,true);
         freeCmp(2,true);
@@ -608,13 +555,7 @@ public class Controller{
         freeCmp(1,false);
         freeCmp(2,false);
         freeCmp(3,false);
-        showAllPc();
-        showAllPhone();
-        selectionEventHandlers();
-        registerEventHandlers();
-        setFilters();
     }
-
     public void selectionEventHandlers() throws IOException{
         listViewPC.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -762,21 +703,21 @@ public class Controller{
 
     private void freeCmp(int id,boolean isPc){
         Text text = new Text("");
-        ScrollPane ref;
+        ScrollPane ref, ref2;
         if(isPc){
             switch(id){
-                case 0: ref = pcInfoField; break;
-                case 1: ref = pcCmp1; break;
-                case 2: ref = pcCmp2; break;
-                default: ref = pcCmp3; break;
+                case 0: ref = pcInfoField; ref2 = null; break;
+                case 1: ref = pcCmp1; ref2 = pcCom1; break;
+                case 2: ref = pcCmp2; ref2 = pcCom2; break;
+                default: ref = pcCmp3; ref2 = pcCom3; break;
             }
         }
         else{
             switch(id){
-                case 0: ref = phoneInfoField; break;
-                case 1: ref = phoneCmp1; break;
-                case 2: ref = phoneCmp2; break;
-                default: ref = phoneCmp3; break;
+                case 0: ref = phoneInfoField; ref2 = null; break;
+                case 1: ref = phoneCmp1; ref2 = phoneCom1; break;
+                case 2: ref = phoneCmp2; ref2 = phoneCom2; break;
+                default: ref = phoneCmp3; ref2 = phoneCom3; break;
             }
             id += 4;
         }
@@ -784,86 +725,94 @@ public class Controller{
         ref.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         ref.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         ref.setContent(text);
+
+        if(ref2!=null){
+            ref2.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+            ref2.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+            ref2.setContent(text);
+        }
     }
 
     private void showInfo(Product p,boolean isPc,int id){
-        ScrollPane ref;
+        ScrollPane ref, ref2;
         long productID;
         if(isPc){
             productID = ((PC) listViewPC.getSelectionModel().getSelectedItem()).getId();
             switch(id){
-                case 0: ref = pcInfoField; break;
-                case 1: ref = pcCmp1; break;
-                case 2: ref = pcCmp2; break;
-                default: ref = pcCmp3; break;
+                case 0: ref = pcInfoField; ref2 = null; break;
+                case 1: ref = pcCmp1; ref2 = pcCom1; break;
+                case 2: ref = pcCmp2; ref2 = pcCom2; break;
+                default: ref = pcCmp3; ref2 = pcCom3; break;
             }
         }
         else{
             productID = ((Phone) listViewPhone.getSelectionModel().getSelectedItem()).getId();
             switch(id){
-                case 0: ref = phoneInfoField; break;
-                case 1: ref = phoneCmp1; break;
-                case 2: ref = phoneCmp2; break;
-                default: ref = phoneCmp3; break;
+                case 0: ref = phoneInfoField; ref2 = null; break;
+                case 1: ref = phoneCmp1; ref2 = phoneCom1; break;
+                case 2: ref = phoneCmp2; ref2 = phoneCom2; break;
+                default: ref = phoneCmp3; ref2 = phoneCom3; break;
             }
             id += 4;
         }
         ref.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         ref.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-        String temp = p.returnDetails();
+        if(ref2!=null) {
+            ref2.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+            ref2.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        }
+        String temp = p.returnDetails();;
         int count = 0;
         try {
-            String strings[] = getFeatures(productID,isPc);
-            Comment comments[] = getComments(productID, isPc);
-            for (String s:strings){
-                count++;
-                temp += "\nAdditional Feature " + count + ": " + s;
-            }
-            if(comments.length>0) {
-                temp += "\n\nComments\n";
-                if(id>=4){
-                    Phone phone = (Phone) listViewPhone.getSelectionModel().getSelectedItem();
-                    phone.setAvgRating(calculateAvg(comments));
-                    temp += "\nAverage Rating:" + String.format("%.2f", phone.getAvgRating());
+            if(id==0 || id==4) {
+                String strings[] = getFeatures(productID, isPc);
+                Comment comments[] = getComments(productID, isPc);
+                for (String s : strings) {
+                    count++;
+                    temp += "\nAdditional Feature " + count + ": " + s;
                 }
-                else{
-                    PC pc = (PC) listViewPC.getSelectionModel().getSelectedItem();
-                    pc.setAvgRating(calculateAvg(comments));
-                    temp += "\nAverage Rating:" + String.format("%.2f", pc.getAvgRating());
-                }
-                if (id == 0 || id == 4) {
+                if (comments.length > 0) {
+                    temp += "\n\nComments\n";
+                    if (id == 4) {
+                        Phone phone = (Phone) listViewPhone.getSelectionModel().getSelectedItem();
+                        phone.setAvgRating(calculateAvg(comments));
+                        temp += "\nAverage Rating:" + String.format("%.2f", phone.getAvgRating());
+                    } else {
+                        PC pc = (PC) listViewPC.getSelectionModel().getSelectedItem();
+                        pc.setAvgRating(calculateAvg(comments));
+                        temp += "\nAverage Rating:" + String.format("%.2f", pc.getAvgRating());
+                    }
                     count = 0;
                     for (Comment c : comments) {
                         count++;
-                        temp += "\nComment " + count + "\n" + c;
+                        temp += "\n\nComment " + count + "\n" + c;
                     }
                 } else {
-                    count = 0;
-                    for (Comment c : comments) {
-                        count++;
-                        temp += "\nComment " + count + "\n" + c;
-                        if (count == 3) {
-                            break;
-                        }
-                    }
+                    temp += "\n\nNo one commented to this product yet!";
                 }
+                Text text = new Text(temp);
+                ref.setContent(text);
+                isEmpty[id] = false;
             }
             else{
-                temp += "\n\nNo one commented to this product yet!";
-            }
+                CommentThread commentThread = new CommentThread("commentThread",productID,isPc);
+                commentThread.start();
+                DetailsThread detailsThread = new DetailsThread("detailsThread",productID,isPc,temp);
+                detailsThread.start();
 
+                try{
+                    commentThread.join();
+                    detailsThread.join();
+                }catch (Exception e){}
+
+                ref.setContent(new Text(detailsThread.text));
+                ref2.setContent(new Text(commentThread.text));
+                isEmpty[id] = false;
+            }
         }
         catch(Exception e){
             System.out.println(e);
         }
-
-
-        Text text = new Text(temp);
-        ref.setContent(text);
-        isEmpty[id] = false;
-
-
-
     }
 
     public void removePressed(ActionEvent event){
@@ -942,7 +891,7 @@ public class Controller{
         }
     }
 
-    private Comment[] getComments(long id,boolean isPc) throws IOException {
+    public static Comment[] getComments(long id,boolean isPc) throws IOException {
         HttpURLConnection connection;
         String url = "http://localhost:8080/";
         if(isPc){
@@ -978,7 +927,7 @@ public class Controller{
         return comments;
     }
 
-    private String[] getFeatures(long id,boolean isPc) throws IOException{
+    public static String[] getFeatures(long id,boolean isPc) throws IOException{
         HttpURLConnection connection;
         String url = "http://localhost:8080/";
         if(isPc){
@@ -1010,7 +959,7 @@ public class Controller{
         return features;
     }
 
-    private float calculateAvg(Comment comments[]){
+    public static float calculateAvg(Comment comments[]){
         float avg = 0;
         for(Comment c:comments){
             avg += c.getRating()/((float)(comments.length));
