@@ -133,6 +133,9 @@ public class Controller{
     @FXML private ScrollPane pcCmp1;
     @FXML private ScrollPane pcCmp2;
     @FXML private ScrollPane pcCmp3;
+    @FXML private ScrollPane pcCom1;
+    @FXML private ScrollPane pcCom2;
+    @FXML private ScrollPane pcCom3;
     @FXML private Button pcRM1Btn;
     @FXML private Button pcRM2Btn;
     @FXML private Button pcRM3Btn;
@@ -141,6 +144,9 @@ public class Controller{
     @FXML private ScrollPane phoneCmp1;
     @FXML private ScrollPane phoneCmp2;
     @FXML private ScrollPane phoneCmp3;
+    @FXML private ScrollPane phoneCom1;
+    @FXML private ScrollPane phoneCom2;
+    @FXML private ScrollPane phoneCom3;
     @FXML private Button phoneRM1Btn;
     @FXML private Button phoneRM2Btn;
     @FXML private Button phoneRM3Btn;
@@ -600,6 +606,15 @@ public class Controller{
 
     @FXML
     public void initialize() throws IOException {
+        initAllScrollPane();
+        showAllPc();
+        showAllPhone();
+        selectionEventHandlers();
+        registerEventHandlers();
+        setFilters();
+    }
+
+    public void initAllScrollPane(){
         freeCmp(0,true);
         freeCmp(1,true);
         freeCmp(2,true);
@@ -608,13 +623,7 @@ public class Controller{
         freeCmp(1,false);
         freeCmp(2,false);
         freeCmp(3,false);
-        showAllPc();
-        showAllPhone();
-        selectionEventHandlers();
-        registerEventHandlers();
-        setFilters();
     }
-
     public void selectionEventHandlers() throws IOException{
         listViewPC.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -787,83 +796,85 @@ public class Controller{
     }
 
     private void showInfo(Product p,boolean isPc,int id){
-        ScrollPane ref;
+        ScrollPane ref, ref2;
         long productID;
         if(isPc){
             productID = ((PC) listViewPC.getSelectionModel().getSelectedItem()).getId();
             switch(id){
-                case 0: ref = pcInfoField; break;
-                case 1: ref = pcCmp1; break;
-                case 2: ref = pcCmp2; break;
-                default: ref = pcCmp3; break;
+                case 0: ref = pcInfoField; ref2 = null; break;
+                case 1: ref = pcCmp1; ref2 = pcCom1; break;
+                case 2: ref = pcCmp2; ref2 = pcCom2; break;
+                default: ref = pcCmp3; ref2 = pcCom3; break;
             }
         }
         else{
             productID = ((Phone) listViewPhone.getSelectionModel().getSelectedItem()).getId();
             switch(id){
-                case 0: ref = phoneInfoField; break;
-                case 1: ref = phoneCmp1; break;
-                case 2: ref = phoneCmp2; break;
-                default: ref = phoneCmp3; break;
+                case 0: ref = phoneInfoField; ref2 = null; break;
+                case 1: ref = phoneCmp1; ref2 = phoneCom1; break;
+                case 2: ref = phoneCmp2; ref2 = phoneCom2; break;
+                default: ref = phoneCmp3; ref2 = phoneCom3; break;
             }
             id += 4;
         }
         ref.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         ref.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        if(ref2!=null) {
+            ref2.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+            ref2.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        }
+
         String temp = p.returnDetails();
         int count = 0;
         try {
-            String strings[] = getFeatures(productID,isPc);
-            Comment comments[] = getComments(productID, isPc);
-            for (String s:strings){
-                count++;
-                temp += "\nAdditional Feature " + count + ": " + s;
-            }
-            if(comments.length>0) {
-                temp += "\n\nComments\n";
-                if(id>=4){
-                    Phone phone = (Phone) listViewPhone.getSelectionModel().getSelectedItem();
-                    phone.setAvgRating(calculateAvg(comments));
-                    temp += "\nAverage Rating:" + String.format("%.2f", phone.getAvgRating());
+            if(id==0 || id==4) {
+                String strings[] = getFeatures(productID, isPc);
+                Comment comments[] = getComments(productID, isPc);
+                for (String s : strings) {
+                    count++;
+                    temp += "\nAdditional Feature " + count + ": " + s;
                 }
-                else{
-                    PC pc = (PC) listViewPC.getSelectionModel().getSelectedItem();
-                    pc.setAvgRating(calculateAvg(comments));
-                    temp += "\nAverage Rating:" + String.format("%.2f", pc.getAvgRating());
-                }
-                if (id == 0 || id == 4) {
-                    count = 0;
-                    for (Comment c : comments) {
-                        count++;
-                        temp += "\nComment " + count + "\n" + c;
+                if (comments.length > 0) {
+                    temp += "\n\nComments\n";
+                    if (id >= 4) {
+                        Phone phone = (Phone) listViewPhone.getSelectionModel().getSelectedItem();
+                        phone.setAvgRating(calculateAvg(comments));
+                        temp += "\nAverage Rating:" + String.format("%.2f", phone.getAvgRating());
+                    } else {
+                        PC pc = (PC) listViewPC.getSelectionModel().getSelectedItem();
+                        pc.setAvgRating(calculateAvg(comments));
+                        temp += "\nAverage Rating:" + String.format("%.2f", pc.getAvgRating());
                     }
-                } else {
-                    count = 0;
-                    for (Comment c : comments) {
-                        count++;
-                        temp += "\nComment " + count + "\n" + c;
-                        if (count == 3) {
-                            break;
+                    if (id == 0 || id == 4) {
+                        count = 0;
+                        for (Comment c : comments) {
+                            count++;
+                            temp += "\n\nComment " + count + "\n" + c;
+                        }
+                    } else {
+                        count = 0;
+                        for (Comment c : comments) {
+                            count++;
+                            temp += "\n\nComment " + count + "\n" + c;
+                            if (count == 3) {
+                                break;
+                            }
                         }
                     }
+                } else {
+                    temp += "\n\nNo one commented to this product yet!";
                 }
             }
             else{
-                temp += "\n\nNo one commented to this product yet!";
             }
-
         }
         catch(Exception e){
             System.out.println(e);
         }
 
-
         Text text = new Text(temp);
         ref.setContent(text);
         isEmpty[id] = false;
-
-
-
     }
 
     public void removePressed(ActionEvent event){
