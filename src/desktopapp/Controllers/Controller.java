@@ -536,6 +536,10 @@ public class Controller{
         setRatingFilterPhone();
     }
 
+    /**
+     * method to run on initialization of the application.
+     * @throws IOException
+     */
     @FXML
     public void initialize() throws IOException {
         initAllScrollPane();
@@ -546,6 +550,9 @@ public class Controller{
         setFilters();
     }
 
+    /**
+     * Initializes all scroll panes in the GUI by setting them empty.
+     */
     public void initAllScrollPane(){
         freeCmp(0,true);
         freeCmp(1,true);
@@ -556,6 +563,13 @@ public class Controller{
         freeCmp(2,false);
         freeCmp(3,false);
     }
+
+    /**
+     * Handles selections on the listview. Upon clicking or using keyboard
+     * to select a list item, displays the information related to selected
+     * item in the right side scroll pane.
+     * @throws IOException
+     */
     public void selectionEventHandlers() throws IOException{
         listViewPC.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -602,6 +616,11 @@ public class Controller{
         });
     }
 
+    /**
+     * Handles sort buttons. Based on the clicked button,
+     * executes sorting operation.
+     * @param event
+     */
     public void sortPressed(ActionEvent event){
         String test = event.toString();
         try {
@@ -638,7 +657,14 @@ public class Controller{
         catch(Exception e){System.out.println(e);}
     }
 
-
+    /**
+     * Handles compare button clicks. Checks the isEmpty array
+     * for the availability of the all slots. If any slot is empty,
+     * calls the showInfo function with corresponding values,
+     * to set the contents of corresponding scrollpanes.
+     * Otherwise, generates an alert.
+     * @param event
+     */
     public void comparePressed(ActionEvent event){
         String test = event.toString();
         if(test.contains("pc")){
@@ -701,6 +727,13 @@ public class Controller{
         }
     }
 
+    /**
+     * Clears the content of selected area in GUI. Selection process is completed with id and isPc parameters.
+     * If id is 0, the product will be shown in the right, short term panel. If id is between 1 to 3,
+     * the product will be shown on the corresponding scrollpanes in the bottom numerated from left to right.
+     * @param id id of the position to be changed.
+     * @param isPc Boolean variable, true if product is a computer, false if product is a phone
+     */
     private void freeCmp(int id,boolean isPc){
         Text text = new Text("");
         ScrollPane ref, ref2;
@@ -733,6 +766,16 @@ public class Controller{
         }
     }
 
+    /**
+     * Shows the information related to requested product object (p) in the application GUI.
+     * Position is selected with isPc and id parameters.
+     * If id is 0, the product will be shown in the right, short term panel.
+     * If id is between 1 to 3, the product will be shown on the corresponding Scroll Panes in the bottom numerated from left to right.
+     * Bottom Scroll Panes are split in two parts. Each part is controlled with separate threads.
+     * @param p Product object
+     * @param isPc Boolean variable, true if product is a computer, false if product is a phone
+     * @param id id of the position to be changed.
+     */
     private void showInfo(Product p,boolean isPc,int id){
         ScrollPane ref, ref2;
         long productID;
@@ -815,6 +858,14 @@ public class Controller{
         }
     }
 
+    /**
+     * handles remove item 1,2, and 3 buttons clicks.
+     * Upon clicking any of the buttons, it checks the isEmpty array
+     * for the availability of the selected slots. If it is not empty,
+     * clears the contents of the selected location and sets the corresponding
+     * position in isEmpty array to empty(true). Otherwise, generated an alert.
+     * @param event
+     */
     public void removePressed(ActionEvent event){
         String test = event.toString();
         if(test.contains("pc")){
@@ -891,6 +942,14 @@ public class Controller{
         }
     }
 
+    /**
+     * Gets the comments of the product with given id. Product type is checked
+     * with isPc parameter.
+     * @param id id of the product.
+     * @param isPc Boolean variable, true if product is a computer, false if product is a phone
+     * @return list of comment objects that belong to the product.
+     * @throws IOException
+     */
     public static Comment[] getComments(long id,boolean isPc) throws IOException {
         HttpURLConnection connection;
         String url = "http://localhost:8080/";
@@ -927,6 +986,14 @@ public class Controller{
         return comments;
     }
 
+    /**
+     * Gets the features of the product with given id. Product type is checked
+     * with isPc parameter.
+     * @param id id of the product.
+     * @param isPc Boolean variable, true if product is a computer, false if product is a phone
+     * @return list of features of the product
+     * @throws IOException
+     */
     public static String[] getFeatures(long id,boolean isPc) throws IOException{
         HttpURLConnection connection;
         String url = "http://localhost:8080/";
@@ -959,7 +1026,12 @@ public class Controller{
         return features;
     }
 
-    public static float calculateAvg(Comment comments[]){
+    /**
+     * calculates the average rating from the given list of comments.
+     * @param comments list of Comment objects
+     * @return average rating of given list of comments.
+     */
+    private float calculateAvg(Comment comments[]){
         float avg = 0;
         for(Comment c:comments){
             avg += c.getRating()/((float)(comments.length));
@@ -967,6 +1039,11 @@ public class Controller{
         return avg;
     }
 
+    /**
+     * initializes all computers upon running the application by getting
+     * all the available computers and lists them at the initialization of the application.
+     * @throws IOException
+     */
     private void showAllPc() throws IOException{
         String response = "";
         HttpURLConnection connection = (HttpURLConnection)new URL("http://localhost:8080/computers").openConnection();
@@ -1009,6 +1086,11 @@ public class Controller{
         }
     }
 
+    /**
+     * initializes all phones upon running the application by getting
+     * all the available phones and lists them at the initialization of the application.
+     * @throws IOException
+     */
     private void showAllPhone() throws IOException{
         String response = "";
         HttpURLConnection connection = (HttpURLConnection)new URL("http://localhost:8080/phones").openConnection();
